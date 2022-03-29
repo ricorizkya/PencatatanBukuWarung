@@ -9,7 +9,7 @@ import 'package:intl/intl.dart';
 import '../controllers/record_debt_controller.dart';
 
 class RecordDebtView extends StatelessWidget {
-  final RecordDebtController controller = Get.put(RecordDebtController());
+  final RecordDebtController controller = Get.find();
 
   @override
   Widget build(BuildContext context) {

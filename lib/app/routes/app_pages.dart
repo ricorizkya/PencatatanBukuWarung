@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 
+import '../modules/debt_detail/bindings/debt_detail_binding.dart';
+import '../modules/debt_detail/views/debt_detail_view.dart';
 import '../modules/get_started/bindings/get_started_binding.dart';
 import '../modules/get_started/views/get_started_view.dart';
 import '../modules/home/bindings/home_binding.dart';
@@ -14,7 +16,7 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.RECORD_DEBT;
+  static const INITIAL = Routes.DEBT_DETAIL;
 
   static final routes = [
     GetPage(
@@ -36,6 +38,11 @@ class AppPages {
       name: _Paths.RECORD_DEBT,
       page: () => RecordDebtView(),
       binding: RecordDebtBinding(),
+    ),
+    GetPage(
+      name: _Paths.DEBT_DETAIL,
+      page: () => DebtDetailView(),
+      binding: DebtDetailBinding(),
     ),
   ];
 }
