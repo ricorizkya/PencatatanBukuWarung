@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "148021691024",
+    "project_id": "los-pasar",
+    "storage_bucket": "los-pasar.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:148021691024:android:b38ec138d7b5b607e0ce15",
+        "android_client_info": {
+          "package_name": "com.atn.los_pasar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "148021691024-45dmgie2cd6o6vffhr3l87b967ha1nce.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.atn.los_pasar",
+            "certificate_hash": "d782dcea5a175cf0410608f575467775a4df0554"
+          }
+        },
+        {
+          "client_id": "148021691024-gcahr96093hve43jt7lr9uj8fpo73svh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBT2m0PzICjXU2PsmU2bRgZq8fzCBe7Nso"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "148021691024-gcahr96093hve43jt7lr9uj8fpo73svh.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "148021691024-b7oc8nmve509j8vp2iha8jtp53urtt1k.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.eduApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

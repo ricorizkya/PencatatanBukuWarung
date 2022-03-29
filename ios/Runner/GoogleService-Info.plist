@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>148021691024-jmfpkhtelk35t71t23dtd3lnt98tdkg8.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.148021691024-jmfpkhtelk35t71t23dtd3lnt98tdkg8</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>148021691024-45dmgie2cd6o6vffhr3l87b967ha1nce.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBRpSkXu9X8snhEys4E7tLXvPkNwzpfBWI</string>
+	<key>GCM_SENDER_ID</key>
+	<string>148021691024</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.atn.losPasar</string>
+	<key>PROJECT_ID</key>
+	<string>los-pasar</string>
+	<key>STORAGE_BUCKET</key>
+	<string>los-pasar.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:148021691024:ios:0afbe9374e547022e0ce15</string>
+</dict>
+</plist>
