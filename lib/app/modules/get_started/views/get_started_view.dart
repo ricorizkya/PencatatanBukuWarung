@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:los_pasar/app/data/constant.dart';
 import 'package:los_pasar/app/routes/app_pages.dart';
 
 import '../controllers/get_started_controller.dart';
@@ -55,7 +56,7 @@ class GetStartedView extends GetView<GetStartedController> {
                 "Education  Resources",
                 textAlign: TextAlign.left,
                 style: TextStyle(
-                    color: Colors.white,
+                    color: Color(white),
                     fontSize: 48,
                     letterSpacing: 1.9,
                     fontWeight: FontWeight.w700),

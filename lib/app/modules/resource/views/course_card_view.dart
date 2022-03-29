@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:los_pasar/app/data/constant.dart';
 
 class CourseCardView extends GetView {
   late final String title, count, imagePath;
@@ -28,11 +29,11 @@ class CourseCardView extends GetView {
                 borderRadius: BorderRadius.circular(24),
                 boxShadow: <BoxShadow>[
                   BoxShadow(
-                      color: Colors.grey,
+                      color: Color(grey),
                       blurRadius: 15.0,
                       offset: Offset(0.75, 0.95))
                 ],
-                color: Colors.grey),
+                color: Color(grey)),
           ),
           SizedBox(
             height: 16,
@@ -42,7 +43,7 @@ class CourseCardView extends GetView {
             child: Text(
               '$title',
               style: TextStyle(
-                  color: Colors.black,
+                  color: Color(black),
                   fontWeight: FontWeight.bold,
                   letterSpacing: 1.9,
                   fontSize: 16.0),

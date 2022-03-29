@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:los_pasar/app/data/constant.dart';
 import 'package:los_pasar/app/modules/resource/views/course_card_view.dart';
 import 'package:los_pasar/app/routes/app_pages.dart';
 
@@ -62,7 +63,7 @@ class ResourceView extends GetView<ResourceController> {
                             "Pasar Plantungan",
                             textAlign: TextAlign.left,
                             style: TextStyle(
-                                color: Colors.blue[50],
+                                color: Color(blueBackground),
                                 fontSize: 30,
                                 letterSpacing: 1.9,
                                 fontWeight: FontWeight.w700),
@@ -71,7 +72,7 @@ class ResourceView extends GetView<ResourceController> {
                             "",
                             textAlign: TextAlign.left,
                             style: TextStyle(
-                                color: Colors.white,
+                                color: Color(white),
                                 fontSize: 12,
                                 letterSpacing: 1.9,
                                 fontWeight: FontWeight.w700),
@@ -80,7 +81,7 @@ class ResourceView extends GetView<ResourceController> {
                             "Selamat Datang Admin ^_^",
                             textAlign: TextAlign.left,
                             style: TextStyle(
-                                color: Colors.black,
+                                color: Color(black),
                                 fontSize: 20,
                                 letterSpacing: 1.9,
                                 fontWeight: FontWeight.w700),

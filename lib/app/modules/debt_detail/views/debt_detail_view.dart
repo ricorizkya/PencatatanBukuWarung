@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:los_pasar/app/data/constant.dart';
 
 import '../controllers/debt_detail_controller.dart';
 
@@ -12,17 +13,17 @@ class DebtDetailView extends GetView<DebtDetailController> {
       appBar: AppBar(
         title: ListTile(
           // contentPadding: EdgeInsets.only(left: 10, right: 10),
-          title: Text("Siti", style: TextStyle(color: Colors.white)),
+          title: Text("Siti", style: TextStyle(color: Color(white))),
           leading: CircleAvatar(
               child: Text("S",
                   style: TextStyle(
-                      color: Colors.white))), //awalan pada circle image
+                      color: Color(white)))), //awalan pada circle image
         ),
       ),
       body: ListView(
         children: [
           Padding(
-            padding: EdgeInsets.only(left: 16, right: 16),
+            padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
             child: Card(
               elevation: 5,
               child: Column(
@@ -43,7 +44,7 @@ class DebtDetailView extends GetView<DebtDetailController> {
                               ),
                               Text("Rp 5.000.000",
                                   style: TextStyle(
-                                      color: Colors.red, fontSize: 20))
+                                      color: Color(red), fontSize: 20))
                             ],
                           ),
                         ),
@@ -51,18 +52,18 @@ class DebtDetailView extends GetView<DebtDetailController> {
                             padding: EdgeInsets.all(16),
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                  primary: Colors.amber[600]),
+                                  primary: Color(yellow)),
                               onPressed: () {},
                               child: Text(
                                 "Lunaskan",
-                                style: TextStyle(color: Colors.black),
+                                style: TextStyle(color: Color(black)),
                               ),
                             )),
                       ],
                     ),
                   ),
                   Divider(
-                    color: Colors.grey[350],
+                    color: Color(grey),
                     thickness: 1,
                     height: 0,
                   ),
@@ -83,7 +84,7 @@ class DebtDetailView extends GetView<DebtDetailController> {
                           ),
                           Icon(
                             CupertinoIcons.back,
-                            color: Colors.blue,
+                            color: Color(blue),
                             textDirection: TextDirection.rtl,
                           )
                         ],
@@ -93,7 +94,7 @@ class DebtDetailView extends GetView<DebtDetailController> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(left: 16, right: 16, top: 16),
+            padding: EdgeInsets.only(left: 16, right: 16, top: 5),
             child: Card(
               elevation: 5,
               child: Container(
@@ -126,7 +127,7 @@ class DebtDetailView extends GetView<DebtDetailController> {
             height: 10,
           ),
           Container(
-            color: Colors.blue[50],
+            color: Color(blueBackground),
             padding: EdgeInsets.symmetric(vertical: 10),
             child: Row(
               children: [
@@ -135,7 +136,7 @@ class DebtDetailView extends GetView<DebtDetailController> {
                   width: Get.width * 0.33,
                   child: Text(
                     "Tanggal",
-                    style: TextStyle(color: Colors.grey[600]),
+                    style: TextStyle(color: Color(grey)),
                   ),
                 ),
                 Container(
@@ -143,7 +144,7 @@ class DebtDetailView extends GetView<DebtDetailController> {
                   width: Get.width * 0.33,
                   child: Text(
                     "Terima",
-                    style: TextStyle(color: Colors.grey[600]),
+                    style: TextStyle(color: Color(grey)),
                   ),
                 ),
                 Container(
@@ -151,7 +152,7 @@ class DebtDetailView extends GetView<DebtDetailController> {
                   width: Get.width * 0.33,
                   child: Text(
                     "Berikan",
-                    style: TextStyle(color: Colors.grey[600]),
+                    style: TextStyle(color: Color(grey)),
                   ),
                 )
               ],
@@ -166,7 +167,7 @@ class DebtDetailView extends GetView<DebtDetailController> {
                   width: Get.width * 0.33,
                   child: Text(
                     "25 Maret 2022",
-                    style: TextStyle(color: Colors.grey[600]),
+                    style: TextStyle(color: Color(grey)),
                   ),
                 ),
                 Container(
@@ -176,7 +177,7 @@ class DebtDetailView extends GetView<DebtDetailController> {
                   width: Get.width * 0.33,
                   child: Text(
                     "-",
-                    style: TextStyle(color: Colors.grey[600]),
+                    style: TextStyle(color: Color(grey)),
                   ),
                 ),
                 Container(
@@ -185,7 +186,7 @@ class DebtDetailView extends GetView<DebtDetailController> {
                   width: Get.width * 0.33,
                   child: Text(
                     "Rp. 5.000.000",
-                    style: TextStyle(color: Colors.red),
+                    style: TextStyle(color: Color(red)),
                   ),
                 )
               ],
@@ -198,7 +199,7 @@ class DebtDetailView extends GetView<DebtDetailController> {
           elevation: 0,
           child: Container(
             decoration: BoxDecoration(
-                color: Colors.white,
+                color: Color(white),
                 border: Border(
                     top: BorderSide(
                         color: Color.fromARGB(123, 158, 158, 158),

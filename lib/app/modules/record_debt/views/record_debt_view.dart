@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:los_pasar/app/data/constant.dart';
 
 import '../controllers/record_debt_controller.dart';
 
@@ -16,7 +17,6 @@ class RecordDebtView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Catat Utang'),
-        centerTitle: true,
       ),
       body: ListView(
         children: [
@@ -32,8 +32,8 @@ class RecordDebtView extends StatelessWidget {
                       padding: EdgeInsets.only(right: 15),
                       decoration: BoxDecoration(
                           color: controller.val.value == 1
-                              ? Colors.red
-                              : Colors.grey[300],
+                              ? Color(red)
+                              : Color(greyBackground),
                           borderRadius: BorderRadius.circular(5)),
                       child: Row(
                         children: [
@@ -43,11 +43,14 @@ class RecordDebtView extends StatelessWidget {
                             onChanged: (value) {
                               controller.changeRadio(value);
                             },
-                            activeColor: Colors.white,
+                            activeColor: Color(white),
                           ),
                           Text(
                             'Berikan',
-                            style: TextStyle(color: Colors.white),
+                            style: TextStyle(
+                                color: controller.val.value == 1
+                                    ? Color(white)
+                                    : Color(grey)),
                           )
                         ],
                       ),
@@ -63,8 +66,8 @@ class RecordDebtView extends StatelessWidget {
                         padding: EdgeInsets.only(right: 15),
                         decoration: BoxDecoration(
                             color: controller.val.value == 2
-                                ? Colors.red
-                                : Colors.grey[300],
+                                ? Color(red)
+                                : Color(greyBackground),
                             borderRadius: BorderRadius.circular(5)),
                         child: Row(
                           children: [
@@ -74,11 +77,14 @@ class RecordDebtView extends StatelessWidget {
                               onChanged: (value) {
                                 controller.changeRadio(value);
                               },
-                              activeColor: Colors.white,
+                              activeColor: Color(white),
                             ),
                             Text(
                               'Terima',
-                              style: TextStyle(color: Colors.white),
+                              style: TextStyle(
+                                  color: controller.val.value == 2
+                                      ? Color(white)
+                                      : Color(grey)),
                             )
                           ],
                         ),
@@ -113,12 +119,13 @@ class RecordDebtView extends StatelessWidget {
             ),
           ),
           Divider(
+            color: Color(divider),
             thickness: 10,
             height: 0,
           ),
           Container(
-            color: Colors.blue[50],
-            padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+            color: Color(blueBackground),
+            padding: const EdgeInsets.fromLTRB(16, 14, 16, 30),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -136,7 +143,7 @@ class RecordDebtView extends StatelessWidget {
                     style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
-                        color: Colors.red),
+                        color: Color(red)),
                     textAlign: TextAlign.right,
                     onChanged: (string) {
                       string =
@@ -150,7 +157,7 @@ class RecordDebtView extends StatelessWidget {
                     decoration: InputDecoration(
                       prefixText: controller.currency,
                       prefixStyle: TextStyle(
-                          color: Colors.red,
+                          color: Color(red),
                           fontWeight: FontWeight.bold,
                           fontSize: 20),
                     ),
@@ -160,6 +167,7 @@ class RecordDebtView extends StatelessWidget {
             ),
           ),
           Divider(
+            color: Color(divider),
             thickness: 10,
             height: 10,
           ),
@@ -214,7 +222,7 @@ class RecordDebtView extends StatelessWidget {
           elevation: 0,
           child: Container(
             decoration: BoxDecoration(
-                color: Colors.white,
+                color: Color(white),
                 border: Border(
                     top: BorderSide(
                         color: Color.fromARGB(123, 158, 158, 158),
@@ -223,7 +231,7 @@ class RecordDebtView extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.amber[600],
+                  primary: Color(yellow),
                 ),
                 onPressed: () {},
                 child: Text("Simpan"),

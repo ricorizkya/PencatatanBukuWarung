@@ -1,0 +1,11 @@
+const int blue = 0xFF0991FE;
+const int green = 0xFF3AB69D;
+const int red = 0xFFE50607;
+const int yellow = 0xFFF7B502;
+const int divider = 0xFFE9E9E9;
+const int grey = 0xFF676A71;
+const int white = 0xFFFFFFFF;
+const int black = 0xFF2D2D2D;
+const int blueBackground = 0xFFF0F4FF;
+const int greenBackground = 0xFFE1FAF4;
+const int greyBackground = 0xFFF1F1F1;
