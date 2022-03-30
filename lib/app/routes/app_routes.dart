@@ -8,6 +8,7 @@ abstract class Routes {
   static const GET_STARTED = _Paths.GET_STARTED;
   static const RECORD_DEBT = _Paths.RECORD_DEBT;
   static const DEBT_DETAIL = _Paths.DEBT_DETAIL;
+  static const TRANSACTION_DETAIL = _Paths.TRANSACTION_DETAIL;
 }
 
 abstract class _Paths {
@@ -17,4 +18,5 @@ abstract class _Paths {
   static const GET_STARTED = '/get-started';
   static const RECORD_DEBT = '/record-debt';
   static const DEBT_DETAIL = '/debt-detail';
+  static const TRANSACTION_DETAIL = '/transaction-detail';
 }

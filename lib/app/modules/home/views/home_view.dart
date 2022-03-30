@@ -31,7 +31,8 @@ class HomeView extends GetView<HomeController> {
           // contentPadding: EdgeInsets.only(left: 10, right: 10),
           title: Text(
             "Retribusi Warung",
-            style: TextStyle(color: Color(white), fontWeight: FontWeight.bold),
+            style: TextStyle(
+                color: Color(white), fontWeight: FontWeight.bold, fontSize: 20),
           ),
           trailing: FittedBox(
             fit: BoxFit.fill,

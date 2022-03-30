@@ -10,6 +10,8 @@ import '../modules/record_debt/bindings/record_debt_binding.dart';
 import '../modules/record_debt/views/record_debt_view.dart';
 import '../modules/resource/bindings/resource_binding.dart';
 import '../modules/resource/views/resource_view.dart';
+import '../modules/transaction_detail/bindings/transaction_detail_binding.dart';
+import '../modules/transaction_detail/views/transaction_detail_view.dart';
 
 part 'app_routes.dart';
 
@@ -43,6 +45,11 @@ class AppPages {
       name: _Paths.DEBT_DETAIL,
       page: () => DebtDetailView(),
       binding: DebtDetailBinding(),
+    ),
+    GetPage(
+      name: _Paths.TRANSACTION_DETAIL,
+      page: () => TransactionDetailView(),
+      binding: TransactionDetailBinding(),
     ),
   ];
 }

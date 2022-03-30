@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:los_pasar/app/data/constant.dart';
+import 'package:los_pasar/app/routes/app_pages.dart';
 
 import '../controllers/debt_detail_controller.dart';
 
@@ -12,11 +13,13 @@ class DebtDetailView extends GetView<DebtDetailController> {
     return Scaffold(
       appBar: AppBar(
         title: ListTile(
-          // contentPadding: EdgeInsets.only(left: 10, right: 10),
-          title: Text("Siti", style: TextStyle(color: Color(white))),
+          contentPadding: EdgeInsets.only(left: 0),
+          title:
+              Text("Siti", style: TextStyle(color: Color(white), fontSize: 20)),
           leading: CircleAvatar(
               child: Text("S",
                   style: TextStyle(
+                      fontSize: 20,
                       color: Color(white)))), //awalan pada circle image
         ),
       ),
@@ -180,13 +183,16 @@ class DebtDetailView extends GetView<DebtDetailController> {
                     style: TextStyle(color: Color(grey)),
                   ),
                 ),
-                Container(
-                  padding: EdgeInsets.symmetric(vertical: 20),
-                  alignment: Alignment.center,
-                  width: Get.width * 0.33,
-                  child: Text(
-                    "Rp. 5.000.000",
-                    style: TextStyle(color: Color(red)),
+                GestureDetector(
+                  onTap: () => Get.toNamed(Routes.TRANSACTION_DETAIL),
+                  child: Container(
+                    padding: EdgeInsets.symmetric(vertical: 20),
+                    alignment: Alignment.center,
+                    width: Get.width * 0.33,
+                    child: Text(
+                      "Rp. 5.000.000",
+                      style: TextStyle(color: Color(red)),
+                    ),
                   ),
                 )
               ],
