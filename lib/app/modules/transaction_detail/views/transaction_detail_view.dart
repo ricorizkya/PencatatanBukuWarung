@@ -59,7 +59,7 @@ class TransactionDetailView extends GetView<TransactionDetailController> {
                         colors: [Color(blue), Color(blueBackground)])),
                 child: Text(
                   '25 Mar 2022 20:36',
-                  style: TextStyle(color: Color(white)),
+                  style: TextStyle(color: Color(white), fontSize: 17),
                 ),
               ),
               Container(
@@ -93,7 +93,7 @@ class TransactionDetailView extends GetView<TransactionDetailController> {
                     ),
                     Text(
                       '082144285606',
-                      style: TextStyle(color: Color(grey)),
+                      style: TextStyle(color: Color(grey), fontSize: 15),
                     ),
                     Divider(
                       thickness: 1,
@@ -105,18 +105,21 @@ class TransactionDetailView extends GetView<TransactionDetailController> {
                       children: [
                         Text(
                           'Nama',
-                          style: TextStyle(color: Color(grey)),
+                          style: TextStyle(color: Color(grey), fontSize: 17),
                         ),
                         Text(
                           'Nomor HP',
-                          style: TextStyle(color: Color(grey)),
+                          style: TextStyle(color: Color(grey), fontSize: 17),
                         ),
                       ],
                     ),
                     SizedBox(
                       height: 5,
                     ),
-                    Text('Siti'),
+                    Text(
+                      'Siti',
+                      style: TextStyle(fontSize: 17),
+                    ),
                     SizedBox(
                       height: 15,
                     ),
@@ -149,14 +152,14 @@ class TransactionDetailView extends GetView<TransactionDetailController> {
                     ),
                     Text(
                       'Catatan',
-                      style: TextStyle(color: Color(grey)),
+                      style: TextStyle(color: Color(grey), fontSize: 17),
                     ),
                     SizedBox(
                       height: 5,
                     ),
                     Text(
                       '-',
-                      style: TextStyle(color: Color(grey)),
+                      style: TextStyle(color: Color(grey), fontSize: 17),
                     ),
                     Divider(
                       thickness: 1,
