@@ -4,6 +4,8 @@ import '../modules/debt_detail/bindings/debt_detail_binding.dart';
 import '../modules/debt_detail/views/debt_detail_view.dart';
 import '../modules/get_started/bindings/get_started_binding.dart';
 import '../modules/get_started/views/get_started_view.dart';
+import '../modules/give/bindings/give_binding.dart';
+import '../modules/give/views/give_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/record_debt/bindings/record_debt_binding.dart';
@@ -50,6 +52,11 @@ class AppPages {
       name: _Paths.TRANSACTION_DETAIL,
       page: () => TransactionDetailView(),
       binding: TransactionDetailBinding(),
+    ),
+    GetPage(
+      name: _Paths.GIVE,
+      page: () => GiveView(),
+      binding: GiveBinding(),
     ),
   ];
 }

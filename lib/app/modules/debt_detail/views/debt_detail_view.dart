@@ -217,9 +217,11 @@ class DebtDetailView extends GetView<DebtDetailController> {
                   Expanded(
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: Color(0xFFE50607),
+                        primary: Color(red),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.toNamed(Routes.GIVE);
+                      },
                       child: Text("Berikan"),
                     ),
                   ),
@@ -229,7 +231,7 @@ class DebtDetailView extends GetView<DebtDetailController> {
                   Expanded(
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: Color(0xFF23C39F),
+                        primary: Color(green),
                       ),
                       onPressed: () {},
                       child: Text("Terima"),
