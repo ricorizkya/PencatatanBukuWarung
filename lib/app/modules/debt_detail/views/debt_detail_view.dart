@@ -233,7 +233,9 @@ class DebtDetailView extends GetView<DebtDetailController> {
                       style: ElevatedButton.styleFrom(
                         primary: Color(green),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.toNamed(Routes.RECEIVE);
+                      },
                       child: Text("Terima"),
                     ),
                   ),

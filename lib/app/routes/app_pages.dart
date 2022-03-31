@@ -8,6 +8,8 @@ import '../modules/give/bindings/give_binding.dart';
 import '../modules/give/views/give_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
+import '../modules/receive/bindings/receive_binding.dart';
+import '../modules/receive/views/receive_view.dart';
 import '../modules/record_debt/bindings/record_debt_binding.dart';
 import '../modules/record_debt/views/record_debt_view.dart';
 import '../modules/resource/bindings/resource_binding.dart';
@@ -57,6 +59,11 @@ class AppPages {
       name: _Paths.GIVE,
       page: () => GiveView(),
       binding: GiveBinding(),
+    ),
+    GetPage(
+      name: _Paths.RECEIVE,
+      page: () => ReceiveView(),
+      binding: ReceiveBinding(),
     ),
   ];
 }
