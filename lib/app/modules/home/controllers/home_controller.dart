@@ -3,17 +3,38 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class HomeController extends GetxController {
-  FirebaseFirestore firebase = FirebaseFirestore.instance;
+  final transaction = FirebaseFirestore.instance.collection('transaction');
 
   NumberFormat currencyFormatter = NumberFormat.currency(
-  locale: 'id',
-  symbol: 'Rp ',
-  decimalDigits: 0,
-);
+    locale: 'id',
+    symbol: 'Rp ',
+    decimalDigits: 0,
+  );
 
-  Future<QuerySnapshot<Object?>> getData() async {
-    CollectionReference transaction = firebase.collection('transaction');
+  var utangSaya = 0.obs;
+  var utangPelanggan = 0.obs;
 
+  Future<QuerySnapshot<Object?>> getListData() async {
     return transaction.get();
+  }
+
+  Future<int> getCount(type) async {
+    final data = await transaction.where('type', isEqualTo: type).get();
+
+    int totalCount = 0;
+
+    data.docs.forEach(
+      (doc) {
+        totalCount += doc.data()['amount'] as int;
+      },
+    );
+    return totalCount;
+  }
+
+  @override
+  void onInit() async {
+    utangSaya.value = await getCount('UTANG');
+    utangPelanggan.value = await getCount('PIUTANG');
+    super.onInit();
   }
 }

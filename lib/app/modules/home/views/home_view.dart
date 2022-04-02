@@ -89,9 +89,12 @@ class HomeView extends GetView<HomeController> {
                                 SizedBox(
                                   height: 5,
                                 ),
-                                Text("Rp 2.500.000",
+                                Obx(() => Text(
+                                    controller.currencyFormatter
+                                        .format(controller.utangSaya.value)
+                                        .toString(),
                                     style: TextStyle(
-                                        color: Color(green), fontSize: 20))
+                                        color: Color(green), fontSize: 20)))
                               ],
                             ),
                           ),
@@ -109,9 +112,12 @@ class HomeView extends GetView<HomeController> {
                                 SizedBox(
                                   height: 5,
                                 ),
-                                Text("Rp 5.000.000",
+                                Obx(() => Text(
+                                    controller.currencyFormatter
+                                        .format(controller.utangPelanggan.value)
+                                        .toString(),
                                     style: TextStyle(
-                                        color: Color(red), fontSize: 20))
+                                        color: Color(red), fontSize: 20)))
                               ],
                             ),
                           ),
@@ -154,60 +160,73 @@ class HomeView extends GetView<HomeController> {
               thickness: 1,
             ),
             FutureBuilder<QuerySnapshot<Object?>>(
-                future: controller.getData(),
+                future: controller.getListData(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.done) {
-                    var listDoc = snapshot.data!.docs;
                     return ListView.builder(
-                      physics: NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: listDoc.length,
-                      itemBuilder: (context, index) => Column(
-                        children: [
-                          GestureDetector(
-                            onTap: () => Get.toNamed(Routes.DEBT_DETAIL),
-                            child: ListTile(
-                              title: Text(
-                                (listDoc[index].data() as Map<String, dynamic>)['name'],
-                              ),
-                              subtitle: Text(
-                                "Jatuh Tempo: 18 Mar 2022",
-                                style: TextStyle(fontSize: 12),
-                              ),
-                              leading: CircleAvatar(
-                                  child: Text("S")), //awalan pada circle image
-                              trailing: FittedBox(
-                                fit: BoxFit.fill,
-                                child: Column(
-                                  children: [
-                                    (listDoc[index].data() as Map<String, dynamic>)['type'] == "UTANG" ? 
-                                    Text(controller.currencyFormatter.format((listDoc[index].data() as Map<String, dynamic>)['amount']).toString(),
-                                        style: TextStyle(
-                                            color: Color(green), fontSize: 20)) :
-                                    Text(controller.currencyFormatter.format((listDoc[index].data() as Map<String, dynamic>)['amount']).toString(),
-                                        style: TextStyle(
-                                            color: Color(red), fontSize: 20)),
-
-                                    (listDoc[index].data() as Map<String, dynamic>)['type'] == "UTANG" ? 
-                                      Text("Utang Saya",
-                                        style: TextStyle(
-                                            color: Color(grey), fontSize: 12)) : 
-                                      Text("Utang Pelanggan",
-                                        style: TextStyle(
-                                            color: Color(grey), fontSize: 12)),
-                                  ],
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: snapshot.data!.docs.length,
+                        itemBuilder: (context, index) {
+                          Map<String, dynamic> doc = snapshot.data!.docs[index]
+                              .data() as Map<String, dynamic>;
+                          return Column(
+                            children: [
+                              GestureDetector(
+                                onTap: () => Get.toNamed(Routes.DEBT_DETAIL,
+                                    arguments: {"trx": doc[index]}),
+                                child: ListTile(
+                                  title: Text(
+                                    doc['name'],
+                                  ),
+                                  subtitle: Text(
+                                    "Jatuh Tempo: 18 Mar 2022",
+                                    style: TextStyle(fontSize: 12),
+                                  ),
+                                  leading: CircleAvatar(
+                                      child:
+                                          Text("S")), //awalan pada circle image
+                                  trailing: FittedBox(
+                                    fit: BoxFit.fill,
+                                    child: Column(
+                                      children: [
+                                        doc['type'] == "UTANG"
+                                            ? Text(
+                                                controller.currencyFormatter
+                                                    .format(doc['amount'])
+                                                    .toString(),
+                                                style: TextStyle(
+                                                    color: Color(green),
+                                                    fontSize: 20))
+                                            : Text(
+                                                controller.currencyFormatter
+                                                    .format(doc['amount'])
+                                                    .toString(),
+                                                style: TextStyle(
+                                                    color: Color(red),
+                                                    fontSize: 20)),
+                                        doc['type'] == "UTANG"
+                                            ? Text("Utang Saya",
+                                                style: TextStyle(
+                                                    color: Color(grey),
+                                                    fontSize: 12))
+                                            : Text("Utang Pelanggan",
+                                                style: TextStyle(
+                                                    color: Color(grey),
+                                                    fontSize: 12)),
+                                      ],
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
-                          Divider(
-                            color: Color(divider),
-                            thickness: 1,
-                            indent: Get.width * 0.15,
-                          ),
-                        ],
-                      ),
-                    );
+                              Divider(
+                                color: Color(divider),
+                                thickness: 1,
+                                indent: Get.width * 0.15,
+                              ),
+                            ],
+                          );
+                        });
                   }
                   return Center(
                     child: CircularProgressIndicator(),
