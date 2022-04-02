@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:los_pasar/app/routes/app_pages.dart';
 
 class RecordDebtController extends GetxController {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -14,7 +15,7 @@ class RecordDebtController extends GetxController {
   var value = false.obs;
   var val = 1.obs;
   final nameC = TextEditingController();
-  final amountC = TextEditingController();
+  final amountC = TextEditingController(text: "0");
   final noteC = TextEditingController();
   final dateC = TextEditingController();
 
@@ -29,6 +30,15 @@ class RecordDebtController extends GetxController {
     var type = val == 1 ? "PIUTANG" : "UTANG";
 
     try {
+      if (name.isEmpty || amount == 0 || date.isEmpty) {
+        Get.defaultDialog(
+            title: "Error",
+            middleText: "Isi semua data dengan benar",
+            textConfirm: "OKE",
+            onConfirm: () => Get.back());
+        return;
+      }
+
       await col.add({
         "type": type,
         "name": name,
@@ -41,8 +51,7 @@ class RecordDebtController extends GetxController {
           title: "Sukses",
           middleText: "Tambah data berhasil",
           onConfirm: () {
-            Get.back();
-            Get.back();
+            Get.offAllNamed(Routes.HOME);
           });
     } on Exception catch (_) {
       Get.snackbar('Error', 'Failed add transaction',
