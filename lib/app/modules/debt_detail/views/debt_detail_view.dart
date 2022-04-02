@@ -1,23 +1,26 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:los_pasar/app/data/constant.dart';
+import 'package:los_pasar/app/data/utils.dart';
 import 'package:los_pasar/app/routes/app_pages.dart';
 
 import '../controllers/debt_detail_controller.dart';
 
-class DebtDetailView extends GetView<DebtDetailController> {
+class DebtDetailView extends StatelessWidget {
+  final DebtDetailController controller = Get.find();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: ListTile(
           contentPadding: EdgeInsets.only(left: 0),
-          title:
-              Text("Siti", style: TextStyle(color: Color(white), fontSize: 20)),
+          title: Text(controller.argDoc['name'],
+              style: TextStyle(color: Color(white), fontSize: 20)),
           leading: CircleAvatar(
-              child: Text("S",
+              child: Text(controller.argDoc['name'][0],
                   style: TextStyle(
                       fontSize: 20,
                       color: Color(white)))), //awalan pada circle image
@@ -41,13 +44,26 @@ class DebtDetailView extends GetView<DebtDetailController> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("Total Utang Siti"),
+                              Text.rich(
+                                TextSpan(
+                                  children: [
+                                    TextSpan(text: 'Total Utang '),
+                                    TextSpan(
+                                      text: controller.argDoc['name'],
+                                    ),
+                                  ],
+                                ),
+                              ),
                               SizedBox(
                                 height: 5,
                               ),
-                              Text("Rp 5.000.000",
+                              Obx(() => Text(
+                                  Utils()
+                                      .currencyFormatter
+                                      .format(controller.count.value)
+                                      .toString(),
                                   style: TextStyle(
-                                      color: Color(red), fontSize: 20))
+                                      color: Color(red), fontSize: 20)))
                             ],
                           ),
                         ),
@@ -82,7 +98,10 @@ class DebtDetailView extends GetView<DebtDetailController> {
                               SizedBox(
                                 width: 5,
                               ),
-                              Text("Jatuh Tempo 18 Maret 2022")
+                              Text.rich(TextSpan(children: [
+                                TextSpan(text: "Jatuh Tempo "),
+                                TextSpan(text: controller.argDoc['date'])
+                              ]))
                             ],
                           ),
                           Icon(
@@ -161,43 +180,68 @@ class DebtDetailView extends GetView<DebtDetailController> {
               ],
             ),
           ),
-          Container(
-            child: Row(
-              children: [
-                Container(
-                  padding: EdgeInsets.symmetric(vertical: 20),
-                  alignment: Alignment.center,
-                  width: Get.width * 0.33,
-                  child: Text(
-                    "25 Maret 2022",
-                    style: TextStyle(color: Color(grey)),
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.symmetric(vertical: 20),
-                  color: Color(0xFFE1FAF4),
-                  alignment: Alignment.center,
-                  width: Get.width * 0.33,
-                  child: Text(
-                    "-",
-                    style: TextStyle(color: Color(grey)),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () => Get.toNamed(Routes.TRANSACTION_DETAIL),
-                  child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 20),
-                    alignment: Alignment.center,
-                    width: Get.width * 0.33,
-                    child: Text(
-                      "Rp. 5.000.000",
-                      style: TextStyle(color: Color(red)),
-                    ),
-                  ),
-                )
-              ],
-            ),
-          )
+          FutureBuilder<QuerySnapshot<Object?>>(
+              future: controller.getListData(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  return ListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: snapshot.data!.docs.length,
+                      itemBuilder: (context, index) {
+                        Map<String, dynamic> doc = snapshot.data!.docs[index]
+                            .data() as Map<String, dynamic>;
+                        return GestureDetector(
+                          onTap: () => Get.toNamed(Routes.TRANSACTION_DETAIL),
+                          child: Row(
+                            children: [
+                              Container(
+                                padding: EdgeInsets.symmetric(vertical: 20),
+                                alignment: Alignment.center,
+                                width: Get.width * 0.33,
+                                child: Text(
+                                  doc['date'],
+                                  style: TextStyle(color: Color(grey)),
+                                ),
+                              ),
+                              Container(
+                                padding: EdgeInsets.symmetric(vertical: 20),
+                                color: Color(0xFFE1FAF4),
+                                alignment: Alignment.center,
+                                width: Get.width * 0.33,
+                                child: Text(
+                                  doc['type'] == 'PIUTANG'
+                                      ? Utils()
+                                          .currencyFormatter
+                                          .format(controller.argDoc['amount'])
+                                          .toString()
+                                      : '-',
+                                  style: TextStyle(color: Color(grey)),
+                                ),
+                              ),
+                              Container(
+                                padding: EdgeInsets.symmetric(vertical: 20),
+                                alignment: Alignment.center,
+                                width: Get.width * 0.33,
+                                child: Text(
+                                  doc['type'] == 'UTANG'
+                                      ? Utils()
+                                          .currencyFormatter
+                                          .format(controller.argDoc['amount'])
+                                          .toString()
+                                      : '-',
+                                  style: TextStyle(color: Color(red)),
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      });
+                }
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }),
         ],
       ),
       bottomNavigationBar: BottomAppBar(

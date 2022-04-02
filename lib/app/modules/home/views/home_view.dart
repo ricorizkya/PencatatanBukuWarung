@@ -3,11 +3,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:los_pasar/app/data/constant.dart';
+import 'package:los_pasar/app/data/utils.dart';
 import 'package:los_pasar/app/routes/app_pages.dart';
 
 import '../controllers/home_controller.dart';
 
-class HomeView extends GetView<HomeController> {
+class HomeView extends StatelessWidget {
+  final HomeController controller = Get.find();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -90,7 +93,8 @@ class HomeView extends GetView<HomeController> {
                                   height: 5,
                                 ),
                                 Obx(() => Text(
-                                    controller.currencyFormatter
+                                    Utils()
+                                        .currencyFormatter
                                         .format(controller.utangSaya.value)
                                         .toString(),
                                     style: TextStyle(
@@ -113,7 +117,8 @@ class HomeView extends GetView<HomeController> {
                                   height: 5,
                                 ),
                                 Obx(() => Text(
-                                    controller.currencyFormatter
+                                    Utils()
+                                        .currencyFormatter
                                         .format(controller.utangPelanggan.value)
                                         .toString(),
                                     style: TextStyle(
@@ -174,15 +179,19 @@ class HomeView extends GetView<HomeController> {
                             children: [
                               GestureDetector(
                                 onTap: () => Get.toNamed(Routes.DEBT_DETAIL,
-                                    arguments: {"trx": doc[index]}),
+                                    arguments: {"doc": doc}),
                                 child: ListTile(
                                   title: Text(
                                     doc['name'],
                                   ),
-                                  subtitle: Text(
-                                    "Jatuh Tempo: 18 Mar 2022",
-                                    style: TextStyle(fontSize: 12),
-                                  ),
+                                  subtitle: Text.rich(TextSpan(children: [
+                                    TextSpan(
+                                        text: "Jatuh Tempo: ",
+                                        style: TextStyle(fontSize: 12)),
+                                    TextSpan(
+                                        text: doc['date'],
+                                        style: TextStyle(fontSize: 12))
+                                  ])),
                                   leading: CircleAvatar(
                                       child:
                                           Text("S")), //awalan pada circle image
@@ -192,14 +201,16 @@ class HomeView extends GetView<HomeController> {
                                       children: [
                                         doc['type'] == "UTANG"
                                             ? Text(
-                                                controller.currencyFormatter
+                                                Utils()
+                                                    .currencyFormatter
                                                     .format(doc['amount'])
                                                     .toString(),
                                                 style: TextStyle(
                                                     color: Color(green),
                                                     fontSize: 20))
                                             : Text(
-                                                controller.currencyFormatter
+                                                Utils()
+                                                    .currencyFormatter
                                                     .format(doc['amount'])
                                                     .toString(),
                                                 style: TextStyle(

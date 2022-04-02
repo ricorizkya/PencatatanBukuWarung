@@ -1,15 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 
 class HomeController extends GetxController {
   final transaction = FirebaseFirestore.instance.collection('transaction');
-
-  NumberFormat currencyFormatter = NumberFormat.currency(
-    locale: 'id',
-    symbol: 'Rp ',
-    decimalDigits: 0,
-  );
 
   var utangSaya = 0.obs;
   var utangPelanggan = 0.obs;
