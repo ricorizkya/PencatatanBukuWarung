@@ -107,6 +107,7 @@ class RecordDebtView extends StatelessWidget {
                   height: 8,
                 ),
                 TextFormField(
+                  controller: controller.nameC,
                   decoration: InputDecoration(
                     labelText: 'Nama Pelanggan',
                     prefixIcon: Icon(CupertinoIcons.person),
@@ -138,7 +139,7 @@ class RecordDebtView extends StatelessWidget {
                 Flexible(
                   child: TextField(
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                    controller: controller.amount,
+                    controller: controller.amountC,
                     keyboardType: TextInputType.number,
                     style: TextStyle(
                         fontSize: 20,
@@ -148,7 +149,7 @@ class RecordDebtView extends StatelessWidget {
                     onChanged: (string) {
                       string =
                           '${controller.formatNumber(string.replaceAll(',', ''))}';
-                      controller.amount.value = TextEditingValue(
+                      controller.amountC.value = TextEditingValue(
                         text: string,
                         selection:
                             TextSelection.collapsed(offset: string.length),
@@ -181,6 +182,7 @@ class RecordDebtView extends StatelessWidget {
                   height: 8,
                 ),
                 TextFormField(
+                  controller: controller.noteC,
                   decoration: InputDecoration(
                     labelText: 'Catatan',
                     prefixIcon: Icon(CupertinoIcons.square_favorites),
@@ -195,12 +197,14 @@ class RecordDebtView extends StatelessWidget {
                 Row(
                   children: [
                     Icon(CupertinoIcons.calendar),
+                    SizedBox(
+                      width: 8,
+                    ),
                     Flexible(
                       child: DateTimeField(
-                        decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                                borderSide: BorderSide.none)),
+                        controller: controller.dateC,
                         format: DateFormat("dd MMM yyyy"),
+                        decoration: InputDecoration(hintText: "1 Jan 2020"),
                         onShowPicker: (context, currentValue) {
                           return showDatePicker(
                               context: context,
@@ -233,7 +237,13 @@ class RecordDebtView extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                   primary: Color(yellow),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  controller.addTransaction(
+                      controller.nameC.text,
+                      int.parse(controller.amountC.text.replaceAll('.', '')),
+                      controller.dateC.text,
+                      controller.noteC.text);
+                },
                 child: Text("Simpan"),
               ),
             ),
