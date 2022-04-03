@@ -179,7 +179,10 @@ class HomeView extends StatelessWidget {
                             children: [
                               GestureDetector(
                                 onTap: () => Get.toNamed(Routes.DEBT_DETAIL,
-                                    arguments: {"doc": doc}),
+                                    arguments: {
+                                      "doc": doc,
+                                      "id": snapshot.data!.docs[index].id
+                                    }),
                                 child: ListTile(
                                   title: Text(
                                     doc['name'],

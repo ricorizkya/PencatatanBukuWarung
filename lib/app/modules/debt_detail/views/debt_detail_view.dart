@@ -192,48 +192,57 @@ class DebtDetailView extends StatelessWidget {
                         Map<String, dynamic> doc = snapshot.data!.docs[index]
                             .data() as Map<String, dynamic>;
                         return GestureDetector(
-                          onTap: () => Get.toNamed(Routes.TRANSACTION_DETAIL),
-                          child: Row(
-                            children: [
-                              Container(
-                                padding: EdgeInsets.symmetric(vertical: 20),
-                                alignment: Alignment.center,
-                                width: Get.width * 0.33,
-                                child: Text(
-                                  doc['date'],
-                                  style: TextStyle(color: Color(grey)),
+                          onTap: () => Get.toNamed(Routes.TRANSACTION_DETAIL,
+                              arguments: {
+                                "doc": doc,
+                                "count": controller.count.value,
+                                "id": snapshot.data!.docs[index].id
+                              }),
+                          child: Container(
+                            height: 70,
+                            color: Color(white),
+                            child: Row(
+                              children: [
+                                Container(
+                                  padding: EdgeInsets.symmetric(vertical: 20),
+                                  alignment: Alignment.center,
+                                  width: Get.width * 0.33,
+                                  child: Text(
+                                    doc['date'],
+                                    style: TextStyle(color: Color(grey)),
+                                  ),
                                 ),
-                              ),
-                              Container(
-                                padding: EdgeInsets.symmetric(vertical: 20),
-                                color: Color(0xFFE1FAF4),
-                                alignment: Alignment.center,
-                                width: Get.width * 0.33,
-                                child: Text(
-                                  doc['type'] == 'PIUTANG'
-                                      ? Utils()
-                                          .currencyFormatter
-                                          .format(controller.argDoc['amount'])
-                                          .toString()
-                                      : '-',
-                                  style: TextStyle(color: Color(grey)),
+                                Container(
+                                  padding: EdgeInsets.symmetric(vertical: 20),
+                                  color: Color(0xFFE1FAF4),
+                                  alignment: Alignment.center,
+                                  width: Get.width * 0.33,
+                                  child: Text(
+                                    doc['type'] == 'UTANG'
+                                        ? Utils()
+                                            .currencyFormatter
+                                            .format(doc['amount'])
+                                            .toString()
+                                        : '-',
+                                    style: TextStyle(color: Color(grey)),
+                                  ),
                                 ),
-                              ),
-                              Container(
-                                padding: EdgeInsets.symmetric(vertical: 20),
-                                alignment: Alignment.center,
-                                width: Get.width * 0.33,
-                                child: Text(
-                                  doc['type'] == 'UTANG'
-                                      ? Utils()
-                                          .currencyFormatter
-                                          .format(controller.argDoc['amount'])
-                                          .toString()
-                                      : '-',
-                                  style: TextStyle(color: Color(red)),
+                                Container(
+                                  padding: EdgeInsets.symmetric(vertical: 20),
+                                  alignment: Alignment.center,
+                                  width: Get.width * 0.33,
+                                  child: Text(
+                                    doc['type'] == 'PIUTANG'
+                                        ? Utils()
+                                            .currencyFormatter
+                                            .format(doc['amount'])
+                                            .toString()
+                                        : '-',
+                                    style: TextStyle(color: Color(red)),
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         );
                       });

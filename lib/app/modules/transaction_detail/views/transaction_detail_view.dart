@@ -3,10 +3,14 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:los_pasar/app/data/constant.dart';
+import 'package:los_pasar/app/data/utils.dart';
+import 'package:los_pasar/app/routes/app_pages.dart';
 
 import '../controllers/transaction_detail_controller.dart';
 
-class TransactionDetailView extends GetView<TransactionDetailController> {
+class TransactionDetailView extends StatelessWidget {
+  final TransactionDetailController controller = Get.find();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,26 +21,36 @@ class TransactionDetailView extends GetView<TransactionDetailController> {
             Text('Detail Transaksi'),
             Row(
               children: [
-                Column(
-                  children: [
-                    Icon(CupertinoIcons.pencil),
-                    Text(
-                      "Ubah",
-                      style: TextStyle(fontSize: 15),
-                    )
-                  ],
+                GestureDetector(
+                  onTap: () => Get.toNamed(Routes.RECORD_DEBT, arguments: {
+                    "doc": controller.argDoc,
+                    "type": "EDIT",
+                    "id": controller.argId
+                  }),
+                  child: Column(
+                    children: [
+                      Icon(CupertinoIcons.pencil),
+                      Text(
+                        "Ubah",
+                        style: TextStyle(fontSize: 15),
+                      )
+                    ],
+                  ),
                 ),
                 SizedBox(
                   width: 15,
                 ),
-                Column(
-                  children: [
-                    Icon(CupertinoIcons.trash),
-                    Text(
-                      "Hapus",
-                      style: TextStyle(fontSize: 15),
-                    )
-                  ],
+                GestureDetector(
+                  onTap: () => controller.deleteTransaction(),
+                  child: Column(
+                    children: [
+                      Icon(CupertinoIcons.trash),
+                      Text(
+                        "Hapus",
+                        style: TextStyle(fontSize: 15),
+                      )
+                    ],
+                  ),
                 )
               ],
             )
@@ -58,7 +72,7 @@ class TransactionDetailView extends GetView<TransactionDetailController> {
                         end: Alignment.topRight,
                         colors: [Color(blue), Color(blueBackground)])),
                 child: Text(
-                  '25 Mar 2022 20:36',
+                  controller.argDoc['date'],
                   style: TextStyle(color: Color(white), fontSize: 17),
                 ),
               ),
@@ -117,7 +131,7 @@ class TransactionDetailView extends GetView<TransactionDetailController> {
                       height: 5,
                     ),
                     Text(
-                      'Siti',
+                      controller.argDoc['name'],
                       style: TextStyle(fontSize: 17),
                     ),
                     SizedBox(
@@ -131,14 +145,19 @@ class TransactionDetailView extends GetView<TransactionDetailController> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Memberikan',
+                            controller.argDoc['type'] == 'UTANG'
+                                ? 'Terima'
+                                : 'Memberikan',
                             style: TextStyle(fontSize: 17),
                           ),
                           SizedBox(
                             height: 10,
                           ),
                           Text(
-                            'Rp.5.000.000',
+                            Utils()
+                                .currencyFormatter
+                                .format(controller.argDoc['amount'])
+                                .toString(),
                             style: TextStyle(
                                 fontSize: 25, fontWeight: FontWeight.bold),
                           )
@@ -158,7 +177,9 @@ class TransactionDetailView extends GetView<TransactionDetailController> {
                       height: 5,
                     ),
                     Text(
-                      '-',
+                      controller.argDoc['note'].toString() == ''
+                          ? '-'
+                          : controller.argDoc['note'],
                       style: TextStyle(color: Color(grey), fontSize: 17),
                     ),
                     Divider(
@@ -174,7 +195,10 @@ class TransactionDetailView extends GetView<TransactionDetailController> {
                           style: TextStyle(color: Color(grey), fontSize: 17),
                         ),
                         Text(
-                          'Rp.5.000.000',
+                          Utils()
+                              .currencyFormatter
+                              .format(controller.argCount)
+                              .toString(),
                           style: TextStyle(color: Color(grey), fontSize: 17),
                         ),
                       ],

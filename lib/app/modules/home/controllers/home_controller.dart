@@ -8,7 +8,9 @@ class HomeController extends GetxController {
   var utangPelanggan = 0.obs;
 
   Future<QuerySnapshot<Object?>> getListData() async {
-    return transaction.get();
+    final data = await transaction.get();
+
+    return data;
   }
 
   Future<int> getCount(type) async {

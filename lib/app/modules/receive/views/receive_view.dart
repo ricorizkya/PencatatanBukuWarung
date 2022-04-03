@@ -54,7 +54,7 @@ class ReceiveView extends GetView<ReceiveController> {
                           SizedBox(
                             width: Get.width * 0.08 + 10,
                           ),
-                          Text("Memberikan"),
+                          Text("Terima"),
                         ],
                       ),
                       Row(
@@ -64,7 +64,7 @@ class ReceiveView extends GetView<ReceiveController> {
                             width: Get.width * 0.08,
                             child: Icon(
                               CupertinoIcons.text_badge_plus,
-                              color: Color(red),
+                              color: Color(green),
                               size: 30,
                             ),
                           ),
@@ -81,7 +81,7 @@ class ReceiveView extends GetView<ReceiveController> {
                               style: TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
-                                  color: Color(red)),
+                                  color: Color(green)),
                               onChanged: (string) {
                                 string =
                                     '${controller.formatNumber(string.replaceAll(',', ''))}';
@@ -94,7 +94,7 @@ class ReceiveView extends GetView<ReceiveController> {
                               decoration: InputDecoration(
                                 prefixText: controller.currency,
                                 prefixStyle: TextStyle(
-                                    color: Color(red),
+                                    color: Color(green),
                                     fontWeight: FontWeight.bold,
                                     fontSize: 20),
                               ),

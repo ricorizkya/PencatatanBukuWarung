@@ -54,7 +54,7 @@ class GiveView extends GetView<GiveController> {
                           SizedBox(
                             width: Get.width * 0.08 + 10,
                           ),
-                          Text("Menerima"),
+                          Text("Memberikan"),
                         ],
                       ),
                       Row(
@@ -64,7 +64,7 @@ class GiveView extends GetView<GiveController> {
                             width: Get.width * 0.08,
                             child: Icon(
                               CupertinoIcons.text_badge_plus,
-                              color: Color(green),
+                              color: Color(red),
                               size: 30,
                             ),
                           ),
@@ -81,7 +81,7 @@ class GiveView extends GetView<GiveController> {
                               style: TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
-                                  color: Color(green)),
+                                  color: Color(red)),
                               onChanged: (string) {
                                 string =
                                     '${controller.formatNumber(string.replaceAll(',', ''))}';
@@ -94,7 +94,7 @@ class GiveView extends GetView<GiveController> {
                               decoration: InputDecoration(
                                 prefixText: controller.currency,
                                 prefixStyle: TextStyle(
-                                    color: Color(green),
+                                    color: Color(red),
                                     fontWeight: FontWeight.bold,
                                     fontSize: 20),
                               ),

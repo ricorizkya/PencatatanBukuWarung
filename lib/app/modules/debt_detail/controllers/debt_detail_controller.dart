@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 class DebtDetailController extends GetxController {
   final transaction = FirebaseFirestore.instance.collection('transaction');
   var argDoc = Get.arguments['doc'];
+  var argId = Get.arguments['id'];
   var count = 0.obs;
 
   Future<QuerySnapshot<Object?>> getListData() async {
@@ -14,7 +15,8 @@ class DebtDetailController extends GetxController {
 
     data.docs.forEach(
       (doc) {
-        totalCount += doc.data()['amount'] as int;
+        if (doc.data()['type'] == 'PIUTANG')
+          totalCount += doc.data()['amount'] as int;
       },
     );
     count.value = totalCount;
