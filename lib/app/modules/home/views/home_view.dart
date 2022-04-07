@@ -16,7 +16,9 @@ class HomeView extends StatelessWidget {
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          Get.toNamed(Routes.RECORD_DEBT);
+          Get.toNamed(Routes.RECORD_DEBT, arguments: {
+            "type": "ADD",
+          });
         },
         icon: Icon(
           CupertinoIcons.add,

@@ -100,12 +100,12 @@ class RecordDebtController extends GetxController {
 
   @override
   void onInit() {
-    this.nameC.text = type == 'EDIT' ? doc['name'] : null;
+    this.nameC.text = type == 'EDIT' ? doc['name'] : "";
     this.amountC.text = (type == 'EDIT'
         ? formatNumber(doc['amount'].toString().replaceAll(',', ''))
-        : null)!;
-    this.noteC.text = type == 'EDIT' ? doc['note'] : null;
-    this.dateC.text = type == 'EDIT' ? doc['date'] : null;
+        : "");
+    this.noteC.text = type == 'EDIT' ? doc['note'] : "";
+    this.dateC.text = type == 'EDIT' ? doc['date'] : "";
     super.onInit();
   }
 }
