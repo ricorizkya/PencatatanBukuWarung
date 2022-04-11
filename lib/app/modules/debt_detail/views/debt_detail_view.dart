@@ -100,7 +100,11 @@ class DebtDetailView extends StatelessWidget {
                               ),
                               Text.rich(TextSpan(children: [
                                 TextSpan(text: "Jatuh Tempo "),
-                                TextSpan(text: controller.argDoc['date'])
+                                TextSpan(
+                                    text: controller.argDoc['date'] == null
+                                        ? "-"
+                                        : Utils().timestampToDateFormat(
+                                            controller.argDoc['date'])),
                               ]))
                             ],
                           ),
@@ -132,12 +136,12 @@ class DebtDetailView extends StatelessWidget {
                             Text("Laporan")
                           ],
                         ),
-                        Column(
-                          children: [
-                            Icon(CupertinoIcons.money_dollar),
-                            Text("Tagih Utang")
-                          ],
-                        ),
+                        // Column(
+                        //   children: [
+                        //     Icon(CupertinoIcons.money_dollar),
+                        //     Text("Tagih Utang")
+                        //   ],
+                        // ),
                       ],
                     ),
                   ],
@@ -208,7 +212,10 @@ class DebtDetailView extends StatelessWidget {
                                   alignment: Alignment.center,
                                   width: Get.width * 0.33,
                                   child: Text(
-                                    doc['date'],
+                                    doc['date'] == null
+                                        ? "-"
+                                        : Utils()
+                                            .timestampToDateFormat(doc['date']),
                                     style: TextStyle(color: Color(grey)),
                                   ),
                                 ),
@@ -273,7 +280,10 @@ class DebtDetailView extends StatelessWidget {
                         primary: Color(red),
                       ),
                       onPressed: () {
-                        Get.toNamed(Routes.GIVE);
+                        Get.toNamed(Routes.GIVE, arguments: {
+                          "id": controller.argId,
+                          "doc": controller.argDoc
+                        });
                       },
                       child: Text("Berikan"),
                     ),
@@ -287,7 +297,10 @@ class DebtDetailView extends StatelessWidget {
                         primary: Color(green),
                       ),
                       onPressed: () {
-                        Get.toNamed(Routes.RECEIVE);
+                        Get.toNamed(Routes.RECEIVE, arguments: {
+                          "id": controller.argId,
+                          "doc": controller.argDoc
+                        });
                       },
                       child: Text("Terima"),
                     ),

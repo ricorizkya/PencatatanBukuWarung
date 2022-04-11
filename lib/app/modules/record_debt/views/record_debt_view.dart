@@ -57,41 +57,41 @@ class RecordDebtView extends StatelessWidget {
                     ),
                   ),
                 )),
-                SizedBox(width: 5),
-                Expanded(
-                  child: Obx(
-                    () => GestureDetector(
-                      onTap: () => controller.changeRadio(2),
-                      child: Container(
-                        padding: EdgeInsets.only(right: 15),
-                        decoration: BoxDecoration(
-                            color: controller.val.value == 2
-                                ? Color(red)
-                                : Color(greyBackground),
-                            borderRadius: BorderRadius.circular(5)),
-                        child: Row(
-                          children: [
-                            Radio(
-                              value: 2,
-                              groupValue: controller.val.value,
-                              onChanged: (value) {
-                                controller.changeRadio(value);
-                              },
-                              activeColor: Color(white),
-                            ),
-                            Text(
-                              'Terima',
-                              style: TextStyle(
-                                  color: controller.val.value == 2
-                                      ? Color(white)
-                                      : Color(grey)),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+                // SizedBox(width: 5),
+                // Expanded(
+                //   child: Obx(
+                //     () => GestureDetector(
+                //       onTap: () => controller.changeRadio(2),
+                //       child: Container(
+                //         padding: EdgeInsets.only(right: 15),
+                //         decoration: BoxDecoration(
+                //             color: controller.val.value == 2
+                //                 ? Color(red)
+                //                 : Color(greyBackground),
+                //             borderRadius: BorderRadius.circular(5)),
+                //         child: Row(
+                //           children: [
+                //             Radio(
+                //               value: 2,
+                //               groupValue: controller.val.value,
+                //               onChanged: (value) {
+                //                 controller.changeRadio(value);
+                //               },
+                //               activeColor: Color(white),
+                //             ),
+                //             Text(
+                //               'Terima',
+                //               style: TextStyle(
+                //                   color: controller.val.value == 2
+                //                       ? Color(white)
+                //                       : Color(grey)),
+                //             )
+                //           ],
+                //         ),
+                //       ),
+                //     ),
+                //   ),
+                // ),
               ],
             ),
           ),
@@ -111,6 +111,19 @@ class RecordDebtView extends StatelessWidget {
                   decoration: InputDecoration(
                     labelText: 'Nama Pelanggan',
                     prefixIcon: Icon(CupertinoIcons.person),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                TextFormField(
+                  controller: controller.phoneC,
+                  decoration: InputDecoration(
+                    labelText: 'Nomor HP',
+                    prefixIcon: Icon(CupertinoIcons.phone),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(15),
                     ),
@@ -203,8 +216,8 @@ class RecordDebtView extends StatelessWidget {
                     Flexible(
                       child: DateTimeField(
                         controller: controller.dateC,
-                        format: DateFormat("dd MMM yyyy"),
-                        decoration: InputDecoration(hintText: "1 Jan 2020"),
+                        format: DateFormat("yyyy-MM-dd"),
+                        decoration: InputDecoration(hintText: "2020-12-31"),
                         onShowPicker: (context, currentValue) {
                           return showDatePicker(
                               context: context,
@@ -244,14 +257,16 @@ class RecordDebtView extends StatelessWidget {
                           int.parse(
                               controller.amountC.text.replaceAll('.', '')),
                           controller.dateC.text,
-                          controller.noteC.text)
+                          controller.noteC.text,
+                          controller.phoneC.text)
                       : controller.editTransaction(
                           controller.id,
                           controller.nameC.text,
                           int.parse(
                               controller.amountC.text.replaceAll('.', '')),
                           controller.dateC.text,
-                          controller.noteC.text);
+                          controller.noteC.text,
+                          controller.phoneC.text);
                 },
                 child: Text("Simpan"),
               ),

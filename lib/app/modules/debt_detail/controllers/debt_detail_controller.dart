@@ -8,8 +8,13 @@ class DebtDetailController extends GetxController {
   var count = 0.obs;
 
   Future<QuerySnapshot<Object?>> getListData() async {
-    final data =
-        await transaction.where('name', isEqualTo: argDoc['name']).get();
+    // get transaction firestore order by date and where
+    final data = await transaction
+        .orderBy('date', descending: true)
+        .where('name', isEqualTo: argDoc['name'])
+        .get();
+    // final data =
+    //     await transaction.where('name', isEqualTo: argDoc['name']).get();
 
     int totalCount = 0;
 

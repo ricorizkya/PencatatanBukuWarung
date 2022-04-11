@@ -18,6 +18,7 @@ class RecordDebtController extends GetxController {
   var value = false.obs;
   var val = 1.obs;
   final nameC = TextEditingController();
+  final phoneC = TextEditingController();
   final amountC = TextEditingController(text: "0");
   final noteC = TextEditingController();
   final dateC = TextEditingController();
@@ -27,7 +28,8 @@ class RecordDebtController extends GetxController {
     update();
   }
 
-  void addTransaction(String name, int amount, String date, String note) async {
+  void addTransaction(
+      String name, int amount, String date, String note, String phone) async {
     CollectionReference col = firestore.collection('transaction');
 
     var type = val == 1 ? "PIUTANG" : "UTANG";
@@ -45,8 +47,9 @@ class RecordDebtController extends GetxController {
       await col.add({
         "type": type,
         "name": name,
+        "phone": phone,
         "amount": amount,
-        "date": date,
+        "date": DateTime.parse(date),
         "note": note
       });
 
@@ -62,8 +65,8 @@ class RecordDebtController extends GetxController {
     }
   }
 
-  void editTransaction(
-      String id, String name, int amount, String date, String note) async {
+  void editTransaction(String id, String name, int amount, String date,
+      String note, String phone) async {
     CollectionReference col = firestore.collection('transaction');
 
     var type = val == 1 ? "PIUTANG" : "UTANG";
@@ -81,8 +84,9 @@ class RecordDebtController extends GetxController {
       await col.doc(id).update({
         "type": type,
         "name": name,
+        "phone": phone,
         "amount": amount,
-        "date": date,
+        "date": DateTime.parse(date),
         "note": note
       });
 
@@ -101,11 +105,14 @@ class RecordDebtController extends GetxController {
   @override
   void onInit() {
     this.nameC.text = type == 'EDIT' ? doc['name'] : "";
+    this.phoneC.text = type == 'EDIT' ? doc['phone'] : "";
     this.amountC.text = (type == 'EDIT'
         ? formatNumber(doc['amount'].toString().replaceAll(',', ''))
         : "");
     this.noteC.text = type == 'EDIT' ? doc['note'] : "";
-    this.dateC.text = type == 'EDIT' ? doc['date'] : "";
+    this.dateC.text = type == 'EDIT'
+        ? DateFormat("yyyy-MM-dd").format(doc['date'].toDate())
+        : "";
     super.onInit();
   }
 }

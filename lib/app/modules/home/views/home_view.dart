@@ -38,7 +38,7 @@ class HomeView extends StatelessWidget {
           title: Text(
             "Retribusi Warung",
             style: TextStyle(
-                color: Color(white), fontWeight: FontWeight.bold, fontSize: 20),
+                color: Color(white), fontWeight: FontWeight.bold, fontSize: 17),
           ),
           trailing: FittedBox(
             fit: BoxFit.fill,
@@ -48,7 +48,7 @@ class HomeView extends StatelessWidget {
                   decoration: BoxDecoration(
                       color: Color(white),
                       borderRadius: BorderRadius.circular(30)),
-                  padding: EdgeInsets.fromLTRB(20, 3, 20, 3),
+                  padding: EdgeInsets.fromLTRB(10, 3, 10, 3),
                   child: Row(
                     children: [
                       Text("Jatuh Tempo", style: TextStyle(color: Color(blue))),
@@ -56,7 +56,7 @@ class HomeView extends StatelessWidget {
                         width: 10,
                       ),
                       Container(
-                        padding: EdgeInsets.all(10),
+                        padding: EdgeInsets.all(8),
                         decoration: BoxDecoration(
                             color: Color(grey), shape: BoxShape.circle),
                         child: Text("0",
@@ -151,9 +151,11 @@ class HomeView extends StatelessWidget {
                                 Text("Lihat Laporan Utang")
                               ],
                             ),
-                            Icon(
-                              CupertinoIcons.back,
-                              textDirection: TextDirection.rtl,
+                            Transform.scale(
+                              scaleX: -1,
+                              child: Icon(
+                                CupertinoIcons.back,
+                              ),
                             )
                           ],
                         ))
@@ -165,6 +167,9 @@ class HomeView extends StatelessWidget {
               color: Color(divider),
               height: 0,
               thickness: 1,
+            ),
+            SizedBox(
+              height: 8,
             ),
             FutureBuilder<QuerySnapshot<Object?>>(
                 future: controller.getListData(),
@@ -194,7 +199,8 @@ class HomeView extends StatelessWidget {
                                         text: "Jatuh Tempo: ",
                                         style: TextStyle(fontSize: 12)),
                                     TextSpan(
-                                        text: doc['date'],
+                                        text: Utils()
+                                            .timestampToDateFormat(doc['date']),
                                         style: TextStyle(fontSize: 12))
                                   ])),
                                   leading: CircleAvatar(

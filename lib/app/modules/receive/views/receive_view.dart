@@ -14,7 +14,7 @@ class ReceiveView extends GetView<ReceiveController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Jumlah Yang Kamu Berikan'),
+        title: Text('Jumlah Yang Kamu Terima'),
       ),
       bottomNavigationBar: BottomAppBar(
           color: Colors.transparent,
@@ -76,7 +76,7 @@ class ReceiveView extends GetView<ReceiveController> {
                               inputFormatters: [
                                 FilteringTextInputFormatter.digitsOnly
                               ],
-                              controller: controller.amount,
+                              controller: controller.amountC,
                               keyboardType: TextInputType.number,
                               style: TextStyle(
                                   fontSize: 20,
@@ -85,7 +85,7 @@ class ReceiveView extends GetView<ReceiveController> {
                               onChanged: (string) {
                                 string =
                                     '${controller.formatNumber(string.replaceAll(',', ''))}';
-                                controller.amount.value = TextEditingValue(
+                                controller.amountC.value = TextEditingValue(
                                   text: string,
                                   selection: TextSelection.collapsed(
                                       offset: string.length),
@@ -136,9 +136,10 @@ class ReceiveView extends GetView<ReceiveController> {
                       Flexible(
                         child: DateTimeField(
                           decoration: InputDecoration(
+                              hintText: "2020-12-31",
                               border: OutlineInputBorder(
                                   borderSide: BorderSide.none)),
-                          format: DateFormat("dd MMM yyyy"),
+                          format: DateFormat("yyyy-MM-dd"),
                           onShowPicker: (context, currentValue) {
                             return showDatePicker(
                                 context: context,
@@ -154,12 +155,12 @@ class ReceiveView extends GetView<ReceiveController> {
                 SizedBox(
                   height: 15,
                 ),
-                CheckboxListTile(
-                  controlAffinity: ListTileControlAffinity.leading,
-                  value: false,
-                  onChanged: (bool) {},
-                  title: Text('Gratis: Kirim SMS notifikasi ke Siti'),
-                )
+                // CheckboxListTile(
+                //   controlAffinity: ListTileControlAffinity.leading,
+                //   value: false,
+                //   onChanged: (bool) {},
+                //   title: Text('Gratis: Kirim SMS notifikasi ke Siti'),
+                // )
               ],
             ),
           ),

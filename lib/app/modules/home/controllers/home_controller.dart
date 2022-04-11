@@ -8,9 +8,8 @@ class HomeController extends GetxController {
   var utangPelanggan = 0.obs;
 
   Future<QuerySnapshot<Object?>> getListData() async {
-    final data = await transaction.get();
-
-    return data;
+    // get transaction firestore order by date
+    return await transaction.orderBy('date', descending: true).get();
   }
 
   Future<int> getCount(type) async {

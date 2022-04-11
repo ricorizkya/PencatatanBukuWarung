@@ -2,19 +2,22 @@ import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:los_pasar/app/data/constant.dart';
+import 'package:los_pasar/app/modules/record_debt/controllers/record_debt_controller.dart';
 
 import '../controllers/give_controller.dart';
 
-class GiveView extends GetView<GiveController> {
+class GiveView extends StatelessWidget {
+  final GiveController controller = Get.find();
+  final RecordDebtController recordDebtController = Get.find();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Jumlah Yang Kamu Terima'),
+        title: Text('Jumlah Yang Kamu Berikan'),
       ),
       bottomNavigationBar: BottomAppBar(
           color: Colors.transparent,
@@ -32,7 +35,14 @@ class GiveView extends GetView<GiveController> {
                 style: ElevatedButton.styleFrom(
                   primary: Color(yellow),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  recordDebtController.addTransaction(
+                      controller.argDoc['name'],
+                      int.parse(controller.amountC.text.replaceAll('.', '')),
+                      controller.dateC.text,
+                      controller.noteC.text,
+                      controller.argDoc['phone']);
+                },
                 child: Text("Simpan"),
               ),
             ),
@@ -76,7 +86,7 @@ class GiveView extends GetView<GiveController> {
                               inputFormatters: [
                                 FilteringTextInputFormatter.digitsOnly
                               ],
-                              controller: controller.amount,
+                              controller: controller.amountC,
                               keyboardType: TextInputType.number,
                               style: TextStyle(
                                   fontSize: 20,
@@ -85,7 +95,7 @@ class GiveView extends GetView<GiveController> {
                               onChanged: (string) {
                                 string =
                                     '${controller.formatNumber(string.replaceAll(',', ''))}';
-                                controller.amount.value = TextEditingValue(
+                                controller.amountC.value = TextEditingValue(
                                   text: string,
                                   selection: TextSelection.collapsed(
                                       offset: string.length),
@@ -110,6 +120,7 @@ class GiveView extends GetView<GiveController> {
                     borderRadius: BorderRadius.circular(15.0),
                   ),
                   child: TextField(
+                    controller: controller.noteC,
                     decoration: InputDecoration(
                         prefixIcon: Icon(
                           CupertinoIcons.pencil_ellipsis_rectangle,
@@ -135,10 +146,12 @@ class GiveView extends GetView<GiveController> {
                       ),
                       Flexible(
                         child: DateTimeField(
+                          controller: controller.dateC,
                           decoration: InputDecoration(
+                              hintText: "2020-12-31",
                               border: OutlineInputBorder(
                                   borderSide: BorderSide.none)),
-                          format: DateFormat("dd MMM yyyy"),
+                          format: DateFormat("yyyy-MM-dd"),
                           onShowPicker: (context, currentValue) {
                             return showDatePicker(
                                 context: context,
@@ -154,12 +167,12 @@ class GiveView extends GetView<GiveController> {
                 SizedBox(
                   height: 15,
                 ),
-                CheckboxListTile(
-                  controlAffinity: ListTileControlAffinity.leading,
-                  value: false,
-                  onChanged: (bool) {},
-                  title: Text('Gratis: Kirim SMS notifikasi ke Siti'),
-                )
+                // CheckboxListTile(
+                //   controlAffinity: ListTileControlAffinity.leading,
+                //   value: false,
+                //   onChanged: (bool) {},
+                //   title: Text('Gratis: Kirim SMS notifikasi ke Siti'),
+                // )
               ],
             ),
           ),

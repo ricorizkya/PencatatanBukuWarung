@@ -72,7 +72,9 @@ class TransactionDetailView extends StatelessWidget {
                         end: Alignment.topRight,
                         colors: [Color(blue), Color(blueBackground)])),
                 child: Text(
-                  controller.argDoc['date'],
+                  controller.argDoc['date'] != null
+                      ? Utils().timestampToDateFormat(controller.argDoc['date'])
+                      : "",
                   style: TextStyle(color: Color(white), fontSize: 17),
                 ),
               ),
@@ -130,9 +132,18 @@ class TransactionDetailView extends StatelessWidget {
                     SizedBox(
                       height: 5,
                     ),
-                    Text(
-                      controller.argDoc['name'],
-                      style: TextStyle(fontSize: 17),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          controller.argDoc['name'],
+                          style: TextStyle(fontSize: 17),
+                        ),
+                        Text(
+                          controller.argDoc['phone'],
+                          style: TextStyle(fontSize: 17),
+                        ),
+                      ],
                     ),
                     SizedBox(
                       height: 15,
@@ -243,27 +254,63 @@ class TransactionDetailView extends StatelessWidget {
                   ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 16, 0, 16),
+              // Padding(
+              //   padding: const EdgeInsets.fromLTRB(0, 16, 0, 16),
+              //   child: Row(
+              //     children: [
+              //       Switch(
+              //         value: true,
+              //         onChanged: (value) {},
+              //         activeTrackColor: Color(blueBackground),
+              //         activeColor: Color(blue),
+              //       ),
+              //       SizedBox(
+              //         width: 5,
+              //       ),
+              //       Text(
+              //         'Tampilkan detail sisa utang',
+              //         style: TextStyle(color: Color(grey), fontSize: 17),
+              //       ),
+              //     ],
+              //   ),
+              // )
+            ],
+          )),
+      bottomNavigationBar: BottomAppBar(
+          color: Colors.transparent,
+          elevation: 0,
+          child: Container(
+            decoration: BoxDecoration(
+                color: Color(white),
+                border: Border(
+                    top: BorderSide(
+                        color: Color.fromARGB(123, 158, 158, 158),
+                        width: 1.0))),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    primary: Color(white),
+                    side: BorderSide(color: Color(yellow))),
+                onPressed: () {},
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Switch(
-                      value: true,
-                      onChanged: (value) {},
-                      activeTrackColor: Color(blueBackground),
-                      activeColor: Color(blue),
+                    Icon(
+                      CupertinoIcons.printer,
+                      color: Color(yellow),
                     ),
                     SizedBox(
                       width: 5,
                     ),
                     Text(
-                      'Tampilkan detail sisa utang',
-                      style: TextStyle(color: Color(grey), fontSize: 17),
+                      "Cetak Nota",
+                      style: TextStyle(color: Color(yellow)),
                     ),
                   ],
                 ),
-              )
-            ],
+              ),
+            ),
           )),
     );
   }
