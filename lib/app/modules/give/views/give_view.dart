@@ -1,23 +1,21 @@
-import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:los_pasar/app/data/constant.dart';
-import 'package:los_pasar/app/modules/record_debt/controllers/record_debt_controller.dart';
 
 import '../controllers/give_controller.dart';
 
 class GiveView extends StatelessWidget {
   final GiveController controller = Get.find();
-  final RecordDebtController recordDebtController = Get.find();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Jumlah Yang Kamu Berikan'),
+        title: controller.argType == 'PINJAM'
+            ? Text('Jumlah Yang Kamu Berikan')
+            : Text('Jumlah Yang Kamu Terima'),
       ),
       bottomNavigationBar: BottomAppBar(
           color: Colors.transparent,
@@ -36,12 +34,17 @@ class GiveView extends StatelessWidget {
                   primary: Color(yellow),
                 ),
                 onPressed: () {
-                  recordDebtController.addTransaction(
-                      controller.argDoc['name'],
-                      int.parse(controller.amountC.text.replaceAll('.', '')),
-                      controller.dateC.text,
-                      controller.noteC.text,
-                      controller.argDoc['phone']);
+                  controller.argType == 'PINJAM'
+                      ? controller.addTransaction(
+                          int.parse(
+                              controller.amountC.text.replaceAll('.', '')),
+                          controller.noteC.text,
+                          'PINJAM')
+                      : controller.addTransaction(
+                          int.parse(
+                              controller.amountC.text.replaceAll('.', '')),
+                          controller.noteC.text,
+                          'BAYAR');
                 },
                 child: Text("Simpan"),
               ),
@@ -64,7 +67,9 @@ class GiveView extends StatelessWidget {
                           SizedBox(
                             width: Get.width * 0.08 + 10,
                           ),
-                          Text("Memberikan"),
+                          controller.argType == 'PINJAM'
+                              ? Text("Memberikan")
+                              : Text("Terima"),
                         ],
                       ),
                       Row(
@@ -74,7 +79,8 @@ class GiveView extends StatelessWidget {
                             width: Get.width * 0.08,
                             child: Icon(
                               CupertinoIcons.text_badge_plus,
-                              color: Color(red),
+                              color: Color(
+                                  controller.argType == 'PINJAM' ? red : green),
                               size: 30,
                             ),
                           ),
@@ -91,7 +97,9 @@ class GiveView extends StatelessWidget {
                               style: TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
-                                  color: Color(red)),
+                                  color: Color(controller.argType == 'PINJAM'
+                                      ? red
+                                      : green)),
                               onChanged: (string) {
                                 string =
                                     '${controller.formatNumber(string.replaceAll(',', ''))}';
@@ -104,7 +112,9 @@ class GiveView extends StatelessWidget {
                               decoration: InputDecoration(
                                 prefixText: controller.currency,
                                 prefixStyle: TextStyle(
-                                    color: Color(red),
+                                    color: Color(controller.argType == 'PINJAM'
+                                        ? red
+                                        : green),
                                     fontWeight: FontWeight.bold,
                                     fontSize: 20),
                               ),
@@ -131,39 +141,39 @@ class GiveView extends StatelessWidget {
                             OutlineInputBorder(borderSide: BorderSide.none)),
                   ),
                 ),
-                Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.0),
-                  ),
-                  child: Row(
-                    children: [
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Icon(
-                        CupertinoIcons.calendar,
-                        color: Color(blue),
-                      ),
-                      Flexible(
-                        child: DateTimeField(
-                          controller: controller.dateC,
-                          decoration: InputDecoration(
-                              hintText: "2020-12-31",
-                              border: OutlineInputBorder(
-                                  borderSide: BorderSide.none)),
-                          format: DateFormat("yyyy-MM-dd"),
-                          onShowPicker: (context, currentValue) {
-                            return showDatePicker(
-                                context: context,
-                                firstDate: DateTime(1900),
-                                initialDate: currentValue ?? DateTime.now(),
-                                lastDate: DateTime(2100));
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                // Card(
+                //   shape: RoundedRectangleBorder(
+                //     borderRadius: BorderRadius.circular(15.0),
+                //   ),
+                //   child: Row(
+                //     children: [
+                //       SizedBox(
+                //         width: 10,
+                //       ),
+                //       Icon(
+                //         CupertinoIcons.calendar,
+                //         color: Color(blue),
+                //       ),
+                //       Flexible(
+                //         child: DateTimeField(
+                //           controller: controller.dateC,
+                //           decoration: InputDecoration(
+                //               hintText: "2020-12-31",
+                //               border: OutlineInputBorder(
+                //                   borderSide: BorderSide.none)),
+                //           format: DateFormat("yyyy-MM-dd"),
+                //           onShowPicker: (context, currentValue) {
+                //             return showDatePicker(
+                //                 context: context,
+                //                 firstDate: DateTime(1900),
+                //                 initialDate: currentValue ?? DateTime.now(),
+                //                 lastDate: DateTime(2100));
+                //           },
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
                 SizedBox(
                   height: 15,
                 ),

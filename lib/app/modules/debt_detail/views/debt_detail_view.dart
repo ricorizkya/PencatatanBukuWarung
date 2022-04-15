@@ -274,11 +274,16 @@ class DebtDetailView extends StatelessWidget {
                       style: ElevatedButton.styleFrom(
                         primary: Color(red),
                       ),
-                      onPressed: () {
-                        // Get.toNamed(Routes.GIVE, arguments: {
-                        //   "id": controller.argId,
-                        //   "doc": controller.argDoc
-                        // });
+                      onPressed: () async {
+                        var data = await Get.toNamed(Routes.GIVE, arguments: {
+                          "type": 'PINJAM',
+                          "id": controller.argId,
+                          "doc": controller.doc
+                        });
+
+                        if (data == 'success') {
+                          controller.getTransactionById(controller.argId);
+                        }
                       },
                       child: Text("Berikan"),
                     ),
@@ -291,11 +296,16 @@ class DebtDetailView extends StatelessWidget {
                       style: ElevatedButton.styleFrom(
                         primary: Color(green),
                       ),
-                      onPressed: () {
-                        // Get.toNamed(Routes.RECEIVE, arguments: {
-                        //   "id": controller.argId,
-                        //   "doc": controller.argDoc
-                        // });
+                      onPressed: () async {
+                        var data = await Get.toNamed(Routes.GIVE, arguments: {
+                          "type": 'BAYAR',
+                          "id": controller.argId,
+                          "doc": controller.doc
+                        });
+
+                        if (data == 'success') {
+                          controller.getTransactionById(controller.argId);
+                        }
                       },
                       child: Text("Terima"),
                     ),
