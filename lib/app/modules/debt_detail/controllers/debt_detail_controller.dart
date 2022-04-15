@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
+import 'package:los_pasar/app/data/rest_provider.dart';
 
 class DebtDetailController extends GetxController
     with StateMixin<Map<String, dynamic>> {
@@ -7,10 +8,14 @@ class DebtDetailController extends GetxController
   var argId = Get.arguments['id'];
 
   getTransactionById(String id) async {
-    transaction.doc(id).get().then((value) {
+    RestProvider().getDataById('transaction', id).then((value) {
       var data = value.data() as Map<String, dynamic>;
       change(data, status: RxStatus.success());
     });
+    // transaction.doc(id).get().then((value) {
+    //   var data = value.data() as Map<String, dynamic>;
+    //   change(data, status: RxStatus.success());
+    // });
   }
 
   // get transaction firebase by id

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import 'package:get/get.dart';
 
@@ -18,6 +19,7 @@ void main() async {
       title: "Los Pasar",
       initialRoute: AppPages.INITIAL,
       getPages: AppPages.routes,
+      builder: EasyLoading.init(),
     ),
   );
 }

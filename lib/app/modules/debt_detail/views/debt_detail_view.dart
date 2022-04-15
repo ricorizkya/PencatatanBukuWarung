@@ -16,15 +16,15 @@ class DebtDetailView extends StatelessWidget {
       appBar: AppBar(
         title: ListTile(
           contentPadding: EdgeInsets.only(left: 0),
-          title: controller.obx((state) => Text(
-              state!['name'].toString().toTitleCase(),
-              style: TextStyle(color: Color(white), fontSize: 20))),
+          title: controller.obx(
+              (state) => Text(state!['name'].toString().toTitleCase(),
+                  style: TextStyle(color: Color(white), fontSize: 20)),
+              onLoading: Center()),
           leading: CircleAvatar(
-              child: controller.obx((state) => Text(
-                  state!['name'][0].toString().toCapitalized(),
-                  style: TextStyle(
-                      fontSize: 20,
-                      color: Color(white))))), //awalan pada circle image
+              child: controller.obx(
+                  (state) => Text(state!['name'][0].toString().toCapitalized(),
+                      style: TextStyle(fontSize: 20, color: Color(white))),
+                  onLoading: Center())), //awalan pada circle image
         ),
       ),
       body: ListView(
@@ -45,28 +45,32 @@ class DebtDetailView extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              controller.obx((state) => Text.rich(
-                                    TextSpan(
-                                      children: [
-                                        TextSpan(text: 'Total Utang '),
+                              controller.obx(
+                                  (state) => Text.rich(
                                         TextSpan(
-                                          text: state!['name']
-                                              .toString()
-                                              .toTitleCase(),
+                                          children: [
+                                            TextSpan(text: 'Total Utang '),
+                                            TextSpan(
+                                              text: state!['name']
+                                                  .toString()
+                                                  .toTitleCase(),
+                                            ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
-                                  )),
+                                      ),
+                                  onLoading: Center()),
                               SizedBox(
                                 height: 5,
                               ),
-                              controller.obx((state) => Text(
-                                  Utils()
-                                      .currencyFormatter
-                                      .format(state!['amount'] as int)
-                                      .toString(),
-                                  style: TextStyle(
-                                      color: Color(red), fontSize: 20)))
+                              controller.obx(
+                                  (state) => Text(
+                                      Utils()
+                                          .currencyFormatter
+                                          .format(state!['amount'] as int)
+                                          .toString(),
+                                      style: TextStyle(
+                                          color: Color(red), fontSize: 20)),
+                                  onLoading: Center())
                             ],
                           ),
                         ),
@@ -101,13 +105,14 @@ class DebtDetailView extends StatelessWidget {
                               SizedBox(
                                 width: 5,
                               ),
-                              controller
-                                  .obx((state) => Text.rich(TextSpan(children: [
+                              controller.obx(
+                                  (state) => Text.rich(TextSpan(children: [
                                         TextSpan(text: "Jatuh Tempo "),
                                         TextSpan(
                                             text: Utils().timestampToDateFormat(
                                                 state!['dueDate'])),
-                                      ])))
+                                      ])),
+                                  onLoading: Center())
                             ],
                           ),
                           Icon(
@@ -180,66 +185,74 @@ class DebtDetailView extends StatelessWidget {
               ],
             ),
           ),
-          controller.obx((state) => ListView.builder(
-              physics: NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: state!['detail'].length,
-              itemBuilder: (context, index) {
-                Map<String, dynamic> doc = state['detail'][index];
-                return GestureDetector(
-                  onTap: () => Get.toNamed(Routes.TRANSACTION_DETAIL,
-                      arguments: {"doc": state, "docDetail": doc}),
-                  child: Container(
-                    height: 70,
-                    color: Color(white),
-                    child: Row(
-                      children: [
-                        Container(
-                          padding: EdgeInsets.symmetric(vertical: 20),
-                          alignment: Alignment.center,
-                          width: Get.width * 0.33,
-                          child: Text(
-                            doc['createdDate'] == null
-                                ? "-"
-                                : Utils()
-                                    .timestampToDateFormat(doc['createdDate']),
-                            style: TextStyle(color: Color(grey)),
-                          ),
+          controller.obx(
+              (state) => ListView.builder(
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: state!['detail'].length,
+                  itemBuilder: (context, index) {
+                    Map<String, dynamic> doc = state['detail'][index];
+                    return GestureDetector(
+                      onTap: () async {
+                        var data = await Get.toNamed(Routes.TRANSACTION_DETAIL,
+                            arguments: {"doc": state, "docDetail": doc});
+
+                        if (data == 'success') {
+                          controller.getTransactionById(controller.argId);
+                        }
+                      },
+                      child: Container(
+                        height: 70,
+                        color: Color(white),
+                        child: Row(
+                          children: [
+                            Container(
+                              padding: EdgeInsets.symmetric(vertical: 20),
+                              alignment: Alignment.center,
+                              width: Get.width * 0.33,
+                              child: Text(
+                                doc['createdDate'] == null
+                                    ? "-"
+                                    : Utils().timestampToDateFormat(
+                                        doc['createdDate']),
+                                style: TextStyle(color: Color(grey)),
+                              ),
+                            ),
+                            Container(
+                              padding: EdgeInsets.symmetric(vertical: 20),
+                              color: Color(0xFFE1FAF4),
+                              alignment: Alignment.center,
+                              width: Get.width * 0.33,
+                              child: Text(
+                                doc['type'] == 'BAYAR'
+                                    ? Utils()
+                                        .currencyFormatter
+                                        .format(doc['amount'])
+                                        .toString()
+                                    : '-',
+                                style: TextStyle(color: Color(grey)),
+                              ),
+                            ),
+                            Container(
+                              padding: EdgeInsets.symmetric(vertical: 20),
+                              alignment: Alignment.center,
+                              width: Get.width * 0.33,
+                              child: Text(
+                                doc['type'] == 'PINJAM'
+                                    ? Utils()
+                                        .currencyFormatter
+                                        .format(doc['amount'])
+                                        .toString()
+                                    : '-',
+                                style: TextStyle(color: Color(red)),
+                              ),
+                            ),
+                          ],
                         ),
-                        Container(
-                          padding: EdgeInsets.symmetric(vertical: 20),
-                          color: Color(0xFFE1FAF4),
-                          alignment: Alignment.center,
-                          width: Get.width * 0.33,
-                          child: Text(
-                            doc['type'] == 'BAYAR'
-                                ? Utils()
-                                    .currencyFormatter
-                                    .format(doc['amount'])
-                                    .toString()
-                                : '-',
-                            style: TextStyle(color: Color(grey)),
-                          ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.symmetric(vertical: 20),
-                          alignment: Alignment.center,
-                          width: Get.width * 0.33,
-                          child: Text(
-                            doc['type'] == 'PINJAM'
-                                ? Utils()
-                                    .currencyFormatter
-                                    .format(doc['amount'])
-                                    .toString()
-                                : '-',
-                            style: TextStyle(color: Color(red)),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              })),
+                      ),
+                    );
+                  }),
+              onLoading: Center()),
         ],
       ),
       bottomNavigationBar: BottomAppBar(

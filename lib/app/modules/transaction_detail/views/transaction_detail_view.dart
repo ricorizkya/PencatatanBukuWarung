@@ -1,10 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:los_pasar/app/data/constant.dart';
 import 'package:los_pasar/app/data/utils.dart';
-import 'package:los_pasar/app/modules/debt_detail/controllers/debt_detail_controller.dart';
 import 'package:los_pasar/app/routes/app_pages.dart';
 
 import '../controllers/transaction_detail_controller.dart';
@@ -22,7 +20,29 @@ class TransactionDetailView extends StatelessWidget {
             Row(
               children: [
                 GestureDetector(
-                  onTap: () => Get.toNamed(Routes.RECORD_DEBT),
+                  onTap: () async {
+                    var data;
+
+                    if (controller.docDetail['type'] == 'PINJAM') {
+                      data = await Get.toNamed(Routes.GIVE, arguments: {
+                        'id': controller.docDetail['id'],
+                        'doc': controller.doc,
+                        'docDetail': controller.docDetail,
+                        'type': 'EDIT'
+                      });
+                    } else {
+                      data = await Get.toNamed(Routes.RECEIVE, arguments: {
+                        'id': controller.docDetail['id'],
+                        'doc': controller.doc,
+                        'docDetail': controller.docDetail,
+                        'type': 'EDIT'
+                      });
+                    }
+
+                    if (data == 'success') {
+                      Get.back(result: 'success');
+                    }
+                  },
                   child: Column(
                     children: [
                       Icon(CupertinoIcons.pencil),

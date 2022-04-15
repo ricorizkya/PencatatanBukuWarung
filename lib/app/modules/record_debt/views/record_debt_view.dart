@@ -176,22 +176,12 @@ class RecordDebtView extends StatelessWidget {
                   primary: Color(yellow),
                 ),
                 onPressed: () {
-                  controller.type != 'EDIT'
-                      ? controller.addTransaction(
-                          controller.nameC.text,
-                          int.parse(
-                              controller.amountC.text.replaceAll('.', '')),
-                          controller.dateC.text,
-                          controller.noteC.text,
-                          controller.phoneC.text)
-                      : controller.editTransaction(
-                          "",
-                          controller.nameC.text,
-                          int.parse(
-                              controller.amountC.text.replaceAll('.', '')),
-                          controller.dateC.text,
-                          controller.noteC.text,
-                          controller.phoneC.text);
+                  controller.addTransaction(
+                      controller.nameC.text,
+                      int.parse(controller.amountC.text.replaceAll('.', '')),
+                      controller.dateC.text,
+                      controller.noteC.text,
+                      controller.phoneC.text);
                 },
                 child: Text("Simpan"),
               ),
