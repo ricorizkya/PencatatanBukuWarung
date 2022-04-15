@@ -187,7 +187,8 @@ class DebtDetailView extends StatelessWidget {
               itemBuilder: (context, index) {
                 Map<String, dynamic> doc = state['detail'][index];
                 return GestureDetector(
-                  onTap: () => Get.toNamed(Routes.TRANSACTION_DETAIL),
+                  onTap: () => Get.toNamed(Routes.TRANSACTION_DETAIL,
+                      arguments: {"doc": state, "docDetail": doc}),
                   child: Container(
                     height: 70,
                     color: Color(white),

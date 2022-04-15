@@ -5,13 +5,9 @@ class DebtDetailController extends GetxController
     with StateMixin<Map<String, dynamic>> {
   final transaction = FirebaseFirestore.instance.collection('transaction');
   var argId = Get.arguments['id'];
-  var doc = {}.obs;
-  var snapDoc;
 
   getTransactionById(String id) async {
-    snapDoc = await transaction.doc(id).get();
-
-    snapDoc.then((value) {
+    transaction.doc(id).get().then((value) {
       var data = value.data() as Map<String, dynamic>;
       change(data, status: RxStatus.success());
     });
