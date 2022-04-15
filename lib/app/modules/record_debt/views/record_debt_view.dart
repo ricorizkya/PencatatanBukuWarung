@@ -21,88 +21,14 @@ class RecordDebtView extends StatelessWidget {
       body: ListView(
         children: [
           Container(
-            padding: EdgeInsets.all(16),
-            child: Row(
-              children: [
-                Expanded(
-                    child: Obx(
-                  () => GestureDetector(
-                    onTap: () => controller.changeRadio(1),
-                    child: Container(
-                      padding: EdgeInsets.only(right: 15),
-                      decoration: BoxDecoration(
-                          color: controller.val.value == 1
-                              ? Color(red)
-                              : Color(greyBackground),
-                          borderRadius: BorderRadius.circular(5)),
-                      child: Row(
-                        children: [
-                          Radio(
-                            value: 1,
-                            groupValue: controller.val.value,
-                            onChanged: (value) {
-                              controller.changeRadio(value);
-                            },
-                            activeColor: Color(white),
-                          ),
-                          Text(
-                            'Berikan',
-                            style: TextStyle(
-                                color: controller.val.value == 1
-                                    ? Color(white)
-                                    : Color(grey)),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                )),
-                // SizedBox(width: 5),
-                // Expanded(
-                //   child: Obx(
-                //     () => GestureDetector(
-                //       onTap: () => controller.changeRadio(2),
-                //       child: Container(
-                //         padding: EdgeInsets.only(right: 15),
-                //         decoration: BoxDecoration(
-                //             color: controller.val.value == 2
-                //                 ? Color(red)
-                //                 : Color(greyBackground),
-                //             borderRadius: BorderRadius.circular(5)),
-                //         child: Row(
-                //           children: [
-                //             Radio(
-                //               value: 2,
-                //               groupValue: controller.val.value,
-                //               onChanged: (value) {
-                //                 controller.changeRadio(value);
-                //               },
-                //               activeColor: Color(white),
-                //             ),
-                //             Text(
-                //               'Terima',
-                //               style: TextStyle(
-                //                   color: controller.val.value == 2
-                //                       ? Color(white)
-                //                       : Color(grey)),
-                //             )
-                //           ],
-                //         ),
-                //       ),
-                //     ),
-                //   ),
-                // ),
-              ],
-            ),
-          ),
-          Container(
             padding: EdgeInsets.fromLTRB(16, 0, 16, 25),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Obx(() => Text(controller.val.value == 1
-                    ? "Memberikan ke"
-                    : "Terima dari")),
+                SizedBox(
+                  height: 16,
+                ),
+                Text("Memberikan ke :"),
                 SizedBox(
                   height: 8,
                 ),
@@ -143,9 +69,7 @@ class RecordDebtView extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Obx(() => Text(controller.val.value == 1
-                    ? "Memberikan sejumlah"
-                    : "Terima sejumlah")),
+                Text("Memberikan sejumlah"),
                 SizedBox(
                   width: 40,
                 ),
@@ -205,8 +129,9 @@ class RecordDebtView extends StatelessWidget {
                   ),
                 ),
                 SizedBox(
-                  height: 8,
+                  height: 10,
                 ),
+                Text("Jatuh Tempo"),
                 Row(
                   children: [
                     Icon(CupertinoIcons.calendar),
@@ -260,7 +185,7 @@ class RecordDebtView extends StatelessWidget {
                           controller.noteC.text,
                           controller.phoneC.text)
                       : controller.editTransaction(
-                          controller.id,
+                          "",
                           controller.nameC.text,
                           int.parse(
                               controller.amountC.text.replaceAll('.', '')),

@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -17,13 +16,15 @@ class DebtDetailView extends StatelessWidget {
       appBar: AppBar(
         title: ListTile(
           contentPadding: EdgeInsets.only(left: 0),
-          title: Text(controller.argDoc['name'],
-              style: TextStyle(color: Color(white), fontSize: 20)),
+          title: controller.obx((state) => Text(
+              state!['name'].toString().toTitleCase(),
+              style: TextStyle(color: Color(white), fontSize: 20))),
           leading: CircleAvatar(
-              child: Text(controller.argDoc['name'][0],
+              child: controller.obx((state) => Text(
+                  state!['name'][0].toString().toCapitalized(),
                   style: TextStyle(
                       fontSize: 20,
-                      color: Color(white)))), //awalan pada circle image
+                      color: Color(white))))), //awalan pada circle image
         ),
       ),
       body: ListView(
@@ -44,23 +45,25 @@ class DebtDetailView extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text.rich(
-                                TextSpan(
-                                  children: [
-                                    TextSpan(text: 'Total Utang '),
+                              controller.obx((state) => Text.rich(
                                     TextSpan(
-                                      text: controller.argDoc['name'],
+                                      children: [
+                                        TextSpan(text: 'Total Utang '),
+                                        TextSpan(
+                                          text: state!['name']
+                                              .toString()
+                                              .toTitleCase(),
+                                        ),
+                                      ],
                                     ),
-                                  ],
-                                ),
-                              ),
+                                  )),
                               SizedBox(
                                 height: 5,
                               ),
-                              Obx(() => Text(
+                              controller.obx((state) => Text(
                                   Utils()
                                       .currencyFormatter
-                                      .format(controller.count.value)
+                                      .format(state!['amount'] as int)
                                       .toString(),
                                   style: TextStyle(
                                       color: Color(red), fontSize: 20)))
@@ -98,14 +101,13 @@ class DebtDetailView extends StatelessWidget {
                               SizedBox(
                                 width: 5,
                               ),
-                              Text.rich(TextSpan(children: [
-                                TextSpan(text: "Jatuh Tempo "),
-                                TextSpan(
-                                    text: controller.argDoc['date'] == null
-                                        ? "-"
-                                        : Utils().timestampToDateFormat(
-                                            controller.argDoc['date'])),
-                              ]))
+                              controller
+                                  .obx((state) => Text.rich(TextSpan(children: [
+                                        TextSpan(text: "Jatuh Tempo "),
+                                        TextSpan(
+                                            text: Utils().timestampToDateFormat(
+                                                state!['dueDate'])),
+                                      ])))
                             ],
                           ),
                           Icon(
@@ -136,12 +138,6 @@ class DebtDetailView extends StatelessWidget {
                             Text("Laporan")
                           ],
                         ),
-                        // Column(
-                        //   children: [
-                        //     Icon(CupertinoIcons.money_dollar),
-                        //     Text("Tagih Utang")
-                        //   ],
-                        // ),
                       ],
                     ),
                   ],
@@ -184,80 +180,65 @@ class DebtDetailView extends StatelessWidget {
               ],
             ),
           ),
-          FutureBuilder<QuerySnapshot<Object?>>(
-              future: controller.getListData(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.done) {
-                  return ListView.builder(
-                      physics: NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: snapshot.data!.docs.length,
-                      itemBuilder: (context, index) {
-                        Map<String, dynamic> doc = snapshot.data!.docs[index]
-                            .data() as Map<String, dynamic>;
-                        return GestureDetector(
-                          onTap: () => Get.toNamed(Routes.TRANSACTION_DETAIL,
-                              arguments: {
-                                "doc": doc,
-                                "count": controller.count.value,
-                                "id": snapshot.data!.docs[index].id
-                              }),
-                          child: Container(
-                            height: 70,
-                            color: Color(white),
-                            child: Row(
-                              children: [
-                                Container(
-                                  padding: EdgeInsets.symmetric(vertical: 20),
-                                  alignment: Alignment.center,
-                                  width: Get.width * 0.33,
-                                  child: Text(
-                                    doc['date'] == null
-                                        ? "-"
-                                        : Utils()
-                                            .timestampToDateFormat(doc['date']),
-                                    style: TextStyle(color: Color(grey)),
-                                  ),
-                                ),
-                                Container(
-                                  padding: EdgeInsets.symmetric(vertical: 20),
-                                  color: Color(0xFFE1FAF4),
-                                  alignment: Alignment.center,
-                                  width: Get.width * 0.33,
-                                  child: Text(
-                                    doc['type'] == 'UTANG'
-                                        ? Utils()
-                                            .currencyFormatter
-                                            .format(doc['amount'])
-                                            .toString()
-                                        : '-',
-                                    style: TextStyle(color: Color(grey)),
-                                  ),
-                                ),
-                                Container(
-                                  padding: EdgeInsets.symmetric(vertical: 20),
-                                  alignment: Alignment.center,
-                                  width: Get.width * 0.33,
-                                  child: Text(
-                                    doc['type'] == 'PIUTANG'
-                                        ? Utils()
-                                            .currencyFormatter
-                                            .format(doc['amount'])
-                                            .toString()
-                                        : '-',
-                                    style: TextStyle(color: Color(red)),
-                                  ),
-                                ),
-                              ],
-                            ),
+          controller.obx((state) => ListView.builder(
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: state!['detail'].length,
+              itemBuilder: (context, index) {
+                Map<String, dynamic> doc = state['detail'][index];
+                return GestureDetector(
+                  onTap: () => Get.toNamed(Routes.TRANSACTION_DETAIL),
+                  child: Container(
+                    height: 70,
+                    color: Color(white),
+                    child: Row(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.symmetric(vertical: 20),
+                          alignment: Alignment.center,
+                          width: Get.width * 0.33,
+                          child: Text(
+                            doc['createdDate'] == null
+                                ? "-"
+                                : Utils()
+                                    .timestampToDateFormat(doc['createdDate']),
+                            style: TextStyle(color: Color(grey)),
                           ),
-                        );
-                      });
-                }
-                return Center(
-                  child: CircularProgressIndicator(),
+                        ),
+                        Container(
+                          padding: EdgeInsets.symmetric(vertical: 20),
+                          color: Color(0xFFE1FAF4),
+                          alignment: Alignment.center,
+                          width: Get.width * 0.33,
+                          child: Text(
+                            doc['type'] == 'BAYAR'
+                                ? Utils()
+                                    .currencyFormatter
+                                    .format(doc['amount'])
+                                    .toString()
+                                : '-',
+                            style: TextStyle(color: Color(grey)),
+                          ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.symmetric(vertical: 20),
+                          alignment: Alignment.center,
+                          width: Get.width * 0.33,
+                          child: Text(
+                            doc['type'] == 'PINJAM'
+                                ? Utils()
+                                    .currencyFormatter
+                                    .format(doc['amount'])
+                                    .toString()
+                                : '-',
+                            style: TextStyle(color: Color(red)),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 );
-              }),
+              })),
         ],
       ),
       bottomNavigationBar: BottomAppBar(
@@ -280,10 +261,10 @@ class DebtDetailView extends StatelessWidget {
                         primary: Color(red),
                       ),
                       onPressed: () {
-                        Get.toNamed(Routes.GIVE, arguments: {
-                          "id": controller.argId,
-                          "doc": controller.argDoc
-                        });
+                        // Get.toNamed(Routes.GIVE, arguments: {
+                        //   "id": controller.argId,
+                        //   "doc": controller.argDoc
+                        // });
                       },
                       child: Text("Berikan"),
                     ),
@@ -297,10 +278,10 @@ class DebtDetailView extends StatelessWidget {
                         primary: Color(green),
                       ),
                       onPressed: () {
-                        Get.toNamed(Routes.RECEIVE, arguments: {
-                          "id": controller.argId,
-                          "doc": controller.argDoc
-                        });
+                        // Get.toNamed(Routes.RECEIVE, arguments: {
+                        //   "id": controller.argId,
+                        //   "doc": controller.argDoc
+                        // });
                       },
                       child: Text("Terima"),
                     ),

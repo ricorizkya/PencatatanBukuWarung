@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:los_pasar/app/routes/app_pages.dart';
+import 'package:uuid/uuid.dart';
 
 class RecordDebtController extends GetxController {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -13,26 +14,17 @@ class RecordDebtController extends GetxController {
       NumberFormat.compactSimpleCurrency(locale: _locale).currencySymbol;
   var doc = Get.arguments['doc'];
   var type = Get.arguments['type'];
-  var id = Get.arguments['id'];
 
   var value = false.obs;
-  var val = 1.obs;
   final nameC = TextEditingController();
   final phoneC = TextEditingController();
   final amountC = TextEditingController(text: "0");
   final noteC = TextEditingController();
   final dateC = TextEditingController();
 
-  changeRadio(value) {
-    val.value = value;
-    update();
-  }
-
   void addTransaction(
       String name, int amount, String date, String note, String phone) async {
     CollectionReference col = firestore.collection('transaction');
-
-    var type = val == 1 ? "PIUTANG" : "UTANG";
 
     try {
       if (name.isEmpty || amount == 0 || date.isEmpty) {
@@ -44,13 +36,33 @@ class RecordDebtController extends GetxController {
         return;
       }
 
+      var check = await col.where('name', isEqualTo: name).get();
+      if (check.docs.isNotEmpty) {
+        Get.defaultDialog(
+            title: "Error",
+            middleText: "Nama sudah ada",
+            textConfirm: "OKE",
+            onConfirm: () => Get.back());
+        return;
+      }
+
       await col.add({
-        "type": type,
-        "name": name,
+        "name": name.toLowerCase(),
         "phone": phone,
         "amount": amount,
-        "date": DateTime.parse(date),
-        "note": note
+        "dueDate": DateTime.parse(date),
+        "note": note,
+        "status": "BELUM LUNAS",
+        "detail": [
+          {
+            "id": Uuid().v1(),
+            "amount": amount,
+            "note": note,
+            "type": "PINJAM",
+            "createdDate": DateTime.now(),
+          }
+        ],
+        "createdDate": DateTime.now(),
       });
 
       Get.defaultDialog(
@@ -69,8 +81,6 @@ class RecordDebtController extends GetxController {
       String note, String phone) async {
     CollectionReference col = firestore.collection('transaction');
 
-    var type = val == 1 ? "PIUTANG" : "UTANG";
-
     try {
       if (name.isEmpty || amount == 0 || date.isEmpty) {
         Get.defaultDialog(
@@ -82,8 +92,7 @@ class RecordDebtController extends GetxController {
       }
 
       await col.doc(id).update({
-        "type": type,
-        "name": name,
+        "name": name.toLowerCase(),
         "phone": phone,
         "amount": amount,
         "date": DateTime.parse(date),

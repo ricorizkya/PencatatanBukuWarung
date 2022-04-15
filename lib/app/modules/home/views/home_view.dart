@@ -187,20 +187,19 @@ class HomeView extends StatelessWidget {
                               GestureDetector(
                                 onTap: () => Get.toNamed(Routes.DEBT_DETAIL,
                                     arguments: {
-                                      "doc": doc,
                                       "id": snapshot.data!.docs[index].id
                                     }),
                                 child: ListTile(
                                   title: Text(
-                                    doc['name'],
+                                    doc['name'].toString().toTitleCase(),
                                   ),
                                   subtitle: Text.rich(TextSpan(children: [
                                     TextSpan(
                                         text: "Jatuh Tempo: ",
                                         style: TextStyle(fontSize: 12)),
                                     TextSpan(
-                                        text: Utils()
-                                            .timestampToDateFormat(doc['date']),
+                                        text: Utils().timestampToDateFormat(
+                                            doc['dueDate']),
                                         style: TextStyle(fontSize: 12))
                                   ])),
                                   leading: CircleAvatar(

@@ -1,37 +1,48 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 
-class DebtDetailController extends GetxController {
+class DebtDetailController extends GetxController
+    with StateMixin<Map<String, dynamic>> {
   final transaction = FirebaseFirestore.instance.collection('transaction');
-  var argDoc = Get.arguments['doc'];
   var argId = Get.arguments['id'];
-  var count = 0.obs;
+  var doc = {}.obs;
+  var snapDoc;
 
-  Future<QuerySnapshot<Object?>> getListData() async {
-    // get transaction firestore order by date and where
-    final data = await transaction
-        .orderBy('date', descending: true)
-        .where('name', isEqualTo: argDoc['name'])
-        .get();
-    // final data =
-    //     await transaction.where('name', isEqualTo: argDoc['name']).get();
+  getTransactionById(String id) async {
+    snapDoc = await transaction.doc(id).get();
 
-    int totalCount = 0;
-
-    data.docs.forEach(
-      (doc) {
-        if (doc.data()['type'] == 'PIUTANG')
-          totalCount += doc.data()['amount'] as int;
-      },
-    );
-    count.value = totalCount;
-
-    return data;
+    snapDoc.then((value) {
+      var data = value.data() as Map<String, dynamic>;
+      change(data, status: RxStatus.success());
+    });
   }
+
+  // get transaction firebase by id
+
+  // Future<QuerySnapshot<Object?>> getListData() async {
+  //   // get transaction firestore order by date and where
+  //   final data = await transaction
+  //       .orderBy('date', descending: true)
+  //       .where('name', isEqualTo: argDoc['name'])
+  //       .get();
+
+  //   int totalCount = 0;
+
+  //   data.docs.forEach(
+  //     (doc) {
+  //       if (doc.data()['type'] == 'PIUTANG')
+  //         totalCount += doc.data()['amount'] as int;
+  //     },
+  //   );
+  //   count.value = totalCount;
+
+  //   return data;
+  // }
 
   @override
   void onInit() async {
-    await this.getListData();
+    getTransactionById(argId);
+    // await this.getListData();
     super.onInit();
   }
 }

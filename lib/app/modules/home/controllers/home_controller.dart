@@ -9,7 +9,7 @@ class HomeController extends GetxController {
 
   Future<QuerySnapshot<Object?>> getListData() async {
     // get transaction firestore order by date
-    return await transaction.orderBy('date', descending: true).get();
+    return await transaction.orderBy('createdDate', descending: true).get();
   }
 
   Future<int> getCount(type) async {
