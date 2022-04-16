@@ -21,23 +21,13 @@ class TransactionDetailView extends StatelessWidget {
               children: [
                 GestureDetector(
                   onTap: () async {
-                    var data;
-
-                    if (controller.docDetail['type'] == 'PINJAM') {
-                      data = await Get.toNamed(Routes.GIVE, arguments: {
-                        'id': controller.docDetail['id'],
-                        'doc': controller.doc,
-                        'docDetail': controller.docDetail,
-                        'type': 'EDIT'
-                      });
-                    } else {
-                      data = await Get.toNamed(Routes.RECEIVE, arguments: {
-                        'id': controller.docDetail['id'],
-                        'doc': controller.doc,
-                        'docDetail': controller.docDetail,
-                        'type': 'EDIT'
-                      });
-                    }
+                    var data = await Get.toNamed(Routes.GIVE, arguments: {
+                      'id': controller.argId,
+                      'doc': controller.argDoc,
+                      'docDetail': controller.argDocDetail,
+                      'type': controller.argDocDetail['type'],
+                      'action': 'EDIT'
+                    });
 
                     if (data == 'success') {
                       Get.back(result: 'success');
@@ -57,7 +47,7 @@ class TransactionDetailView extends StatelessWidget {
                   width: 15,
                 ),
                 GestureDetector(
-                  // onTap: () => controller.deleteTransaction(),
+                  onTap: () => controller.deleteTransaction(),
                   child: Column(
                     children: [
                       Icon(CupertinoIcons.trash),
@@ -89,7 +79,7 @@ class TransactionDetailView extends StatelessWidget {
                         colors: [Color(blue), Color(blueBackground)])),
                 child: Text(
                   Utils().timestampToDateFormat(
-                      controller.docDetail['createdDate']),
+                      controller.argDocDetail['createdDate']),
                   style: TextStyle(color: Color(white), fontSize: 17),
                 ),
               ),
@@ -151,11 +141,11 @@ class TransactionDetailView extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          controller.doc['name'].toString().toTitleCase(),
+                          controller.argDoc['name'].toString().toTitleCase(),
                           style: TextStyle(fontSize: 17),
                         ),
                         Text(
-                          controller.doc['phone'],
+                          controller.argDoc['phone'],
                           style: TextStyle(fontSize: 17),
                         ),
                       ],
@@ -171,7 +161,7 @@ class TransactionDetailView extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            controller.docDetail['type'] == 'BAYAR'
+                            controller.argDocDetail['type'] == 'BAYAR'
                                 ? 'Terima'
                                 : 'Memberikan',
                             style: TextStyle(fontSize: 17),
@@ -182,7 +172,8 @@ class TransactionDetailView extends StatelessWidget {
                           Text(
                             Utils()
                                 .currencyFormatter
-                                .format(controller.docDetail['amount'] as int)
+                                .format(
+                                    controller.argDocDetail['amount'] as int)
                                 .toString(),
                             style: TextStyle(
                                 fontSize: 25, fontWeight: FontWeight.bold),
@@ -203,9 +194,9 @@ class TransactionDetailView extends StatelessWidget {
                       height: 5,
                     ),
                     Text(
-                      controller.docDetail['note'].toString() == ''
+                      controller.argDocDetail['note'].toString() == ''
                           ? '-'
-                          : controller.docDetail['note'],
+                          : controller.argDocDetail['note'],
                       style: TextStyle(color: Color(grey), fontSize: 17),
                     ),
                     Divider(
@@ -223,7 +214,7 @@ class TransactionDetailView extends StatelessWidget {
                         Text(
                           Utils()
                               .currencyFormatter
-                              .format(controller.doc['amount'] as int)
+                              .format(controller.argDoc['amount'] as int)
                               .toString(),
                           style: TextStyle(color: Color(grey), fontSize: 17),
                         ),

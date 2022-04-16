@@ -1,40 +1,54 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
-import 'package:los_pasar/app/data/rest_provider.dart';
 
 class HomeController extends GetxController
-    with StateMixin<Map<String, dynamic>> {
+    with StateMixin<QuerySnapshot<Map<String, dynamic>>> {
   final transaction = FirebaseFirestore.instance.collection('transaction');
 
   var utangSaya = 0.obs;
   var utangPelanggan = 0.obs;
+  var jatuhTempo = 0.obs;
 
-  // Future<QuerySnapshot<Object?>> getListData() async {
-  //   // get transaction firestore order by date
-  //   return await transaction.orderBy('createdDate', descending: true).get();
-  // }
+  calculateAmount() {
+    transaction.snapshots().listen((snapshot) {
+      change(snapshot, status: RxStatus.success());
+      snapshot.docs.forEach((doc) {
+        var data = doc.data();
+        utangSaya.value = 0;
+        utangPelanggan.value = 0;
+        data['detail'].forEach((detail) {
+          if (detail['type'] == 'BAYAR') {
+            utangSaya += detail['amount'];
+          } else {
+            utangPelanggan += detail['amount'];
+          }
+        });
 
-  Future<QuerySnapshot<Object?>> getListData() async {
-    return RestProvider().getAllData('transaction', 'createdDate', false);
+        // if dueDate lower than today
+        if (data['dueDate'] != null) {
+          // timestamp to datetime
+          var dueDate = DateTime.fromMillisecondsSinceEpoch(
+              data['dueDate'].seconds * 1000);
+          var now = DateTime.now();
+          if (dueDate.isBefore(now)) {
+            jatuhTempo += 1;
+          }
+        }
+      });
+    });
   }
 
-  // Future<int> getCount(type) async {
-  //   final data = await transaction.where('type', isEqualTo: type).get();
-
-  //   int totalCount = 0;
-
-  //   data.docs.forEach(
-  //     (doc) {
-  //       totalCount += doc.data()['amount'] as int;
-  //     },
-  //   );
-  //   return totalCount;
-  // }
+  int calculateDataAmount(var docDetail) {
+    var amount = 0;
+    docDetail.forEach((x) {
+      if (x['type'] == 'PINJAM') amount += x['amount'] as int;
+    });
+    return amount;
+  }
 
   @override
   void onInit() async {
-    // utangSaya.value = await getCount('UTANG');
-    // utangPelanggan.value = await getCount('PIUTANG');
+    calculateAmount();
     super.onInit();
   }
 }

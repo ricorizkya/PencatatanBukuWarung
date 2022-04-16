@@ -59,7 +59,7 @@ class HomeView extends StatelessWidget {
                         padding: EdgeInsets.all(8),
                         decoration: BoxDecoration(
                             color: Color(grey), shape: BoxShape.circle),
-                        child: Text("0",
+                        child: Text(controller.jatuhTempo.value.toString(),
                             style:
                                 TextStyle(color: Color(white), fontSize: 12)),
                       ),
@@ -171,86 +171,169 @@ class HomeView extends StatelessWidget {
             SizedBox(
               height: 8,
             ),
-            FutureBuilder<QuerySnapshot<Object?>>(
-                future: controller.getListData(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.done) {
-                    return ListView.builder(
-                        physics: NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: snapshot.data!.docs.length,
-                        itemBuilder: (context, index) {
-                          Map<String, dynamic> doc = snapshot.data!.docs[index]
-                              .data() as Map<String, dynamic>;
-                          return Column(
-                            children: [
-                              GestureDetector(
-                                onTap: () => Get.toNamed(Routes.DEBT_DETAIL,
-                                    arguments: {
-                                      "id": snapshot.data!.docs[index].id
-                                    }),
-                                child: ListTile(
-                                  title: Text(
-                                    doc['name'].toString().toTitleCase(),
-                                  ),
-                                  subtitle: Text.rich(TextSpan(children: [
-                                    TextSpan(
-                                        text: "Jatuh Tempo: ",
-                                        style: TextStyle(fontSize: 12)),
-                                    TextSpan(
-                                        text: Utils().timestampToDateFormat(
-                                            doc['dueDate']),
-                                        style: TextStyle(fontSize: 12))
-                                  ])),
-                                  leading: CircleAvatar(
-                                      child:
-                                          Text("S")), //awalan pada circle image
-                                  trailing: FittedBox(
-                                    fit: BoxFit.fill,
-                                    child: Column(
-                                      children: [
-                                        doc['type'] == "UTANG"
-                                            ? Text(
-                                                Utils()
-                                                    .currencyFormatter
-                                                    .format(doc['amount'])
-                                                    .toString(),
-                                                style: TextStyle(
-                                                    color: Color(green),
-                                                    fontSize: 20))
-                                            : Text(
-                                                Utils()
-                                                    .currencyFormatter
-                                                    .format(doc['amount'])
-                                                    .toString(),
-                                                style: TextStyle(
-                                                    color: Color(red),
-                                                    fontSize: 20)),
-                                        doc['type'] == "UTANG"
-                                            ? Text("Utang Saya",
-                                                style: TextStyle(
-                                                    color: Color(grey),
-                                                    fontSize: 12))
-                                            : Text("Utang Pelanggan",
-                                                style: TextStyle(
-                                                    color: Color(grey),
-                                                    fontSize: 12)),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Divider(
-                                color: Color(divider),
-                                thickness: 1,
-                                indent: Get.width * 0.15,
-                              ),
-                            ],
-                          );
-                        });
-                  }
-                  return Center();
-                }),
+            controller.obx((snapshot) => ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: snapshot!.docs.length,
+                itemBuilder: (context, index) {
+                  Map<String, dynamic> doc = snapshot.docs[index].data();
+                  return Column(
+                    children: [
+                      GestureDetector(
+                        onTap: () async {
+                          var data = await Get.toNamed(Routes.DEBT_DETAIL,
+                              arguments: {"id": snapshot.docs[index].id});
+
+                          if (data == 'success') controller.calculateAmount();
+                        },
+                        child: ListTile(
+                          title: Text(
+                            doc['name'].toString().toTitleCase(),
+                          ),
+                          subtitle: Text.rich(TextSpan(children: [
+                            TextSpan(
+                                text: "Jatuh Tempo: ",
+                                style: TextStyle(fontSize: 12)),
+                            TextSpan(
+                                text: Utils()
+                                    .timestampToDateFormat(doc['dueDate']),
+                                style: TextStyle(fontSize: 12))
+                          ])),
+                          leading: CircleAvatar(
+                              child: Text("S")), //awalan pada circle image
+                          trailing: FittedBox(
+                            fit: BoxFit.fill,
+                            child: Column(
+                              children: [
+                                doc['type'] == "UTANG"
+                                    ? Text(
+                                        Utils()
+                                            .currencyFormatter
+                                            .format(
+                                                controller.calculateDataAmount(
+                                                    doc['detail']))
+                                            .toString(),
+                                        style: TextStyle(
+                                            color: Color(green), fontSize: 20))
+                                    : Text(
+                                        Utils()
+                                            .currencyFormatter
+                                            .format(
+                                                controller.calculateDataAmount(
+                                                    doc['detail']))
+                                            .toString(),
+                                        style: TextStyle(
+                                            color: Color(red), fontSize: 20)),
+                                doc['type'] == "UTANG"
+                                    ? Text("Utang Saya",
+                                        style: TextStyle(
+                                            color: Color(grey), fontSize: 12))
+                                    : Text("Utang Pelanggan",
+                                        style: TextStyle(
+                                            color: Color(grey), fontSize: 12)),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      Divider(
+                        color: Color(divider),
+                        thickness: 1,
+                        indent: Get.width * 0.15,
+                      ),
+                    ],
+                  );
+                }))
+            //   FutureBuilder<QuerySnapshot<Object?>>(
+            //       future: controller.getListData(),
+            //       builder: (context, snapshot) {
+            //         if (snapshot.connectionState == ConnectionState.done) {
+            //           return ListView.builder(
+            //               physics: NeverScrollableScrollPhysics(),
+            //               shrinkWrap: true,
+            //               itemCount: snapshot.data!.docs.length,
+            //               itemBuilder: (context, index) {
+            //                 Map<String, dynamic> doc = snapshot.data!.docs[index]
+            //                     .data() as Map<String, dynamic>;
+            //                 return Column(
+            //                   children: [
+            //                     GestureDetector(
+            //                       onTap: () async {
+            //                         var data = await Get.toNamed(
+            //                             Routes.DEBT_DETAIL,
+            //                             arguments: {
+            //                               "id": snapshot.data!.docs[index].id
+            //                             });
+
+            //                         if (data == 'success')
+            //                           controller.getListData();
+            //                       },
+            //                       child: ListTile(
+            //                         title: Text(
+            //                           doc['name'].toString().toTitleCase(),
+            //                         ),
+            //                         subtitle: Text.rich(TextSpan(children: [
+            //                           TextSpan(
+            //                               text: "Jatuh Tempo: ",
+            //                               style: TextStyle(fontSize: 12)),
+            //                           TextSpan(
+            //                               text: Utils().timestampToDateFormat(
+            //                                   doc['dueDate']),
+            //                               style: TextStyle(fontSize: 12))
+            //                         ])),
+            //                         leading: CircleAvatar(
+            //                             child:
+            //                                 Text("S")), //awalan pada circle image
+            //                         trailing: FittedBox(
+            //                           fit: BoxFit.fill,
+            //                           child: Column(
+            //                             children: [
+            //                               doc['type'] == "UTANG"
+            //                                   ? Text(
+            //                                       Utils()
+            //                                           .currencyFormatter
+            //                                           .format(controller
+            //                                               .calculateDataAmount(
+            //                                                   doc['detail']))
+            //                                           .toString(),
+            //                                       style: TextStyle(
+            //                                           color: Color(green),
+            //                                           fontSize: 20))
+            //                                   : Text(
+            //                                       Utils()
+            //                                           .currencyFormatter
+            //                                           .format(controller
+            //                                               .calculateDataAmount(
+            //                                                   doc['detail']))
+            //                                           .toString(),
+            //                                       style: TextStyle(
+            //                                           color: Color(red),
+            //                                           fontSize: 20)),
+            //                               doc['type'] == "UTANG"
+            //                                   ? Text("Utang Saya",
+            //                                       style: TextStyle(
+            //                                           color: Color(grey),
+            //                                           fontSize: 12))
+            //                                   : Text("Utang Pelanggan",
+            //                                       style: TextStyle(
+            //                                           color: Color(grey),
+            //                                           fontSize: 12)),
+            //                             ],
+            //                           ),
+            //                         ),
+            //                       ),
+            //                     ),
+            //                     Divider(
+            //                       color: Color(divider),
+            //                       thickness: 1,
+            //                       indent: Get.width * 0.15,
+            //                     ),
+            //                   ],
+            //                 );
+            //               });
+            //         }
+            //         return Center();
+            //       }),
           ],
         ),
       ),

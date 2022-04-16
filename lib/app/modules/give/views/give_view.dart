@@ -34,17 +34,15 @@ class GiveView extends StatelessWidget {
                   primary: Color(yellow),
                 ),
                 onPressed: () {
-                  controller.argType == 'PINJAM'
+                  controller.argAction != 'EDIT'
                       ? controller.addTransaction(
                           int.parse(
                               controller.amountC.text.replaceAll('.', '')),
-                          controller.noteC.text,
-                          'PINJAM')
-                      : controller.addTransaction(
+                          controller.noteC.text)
+                      : controller.editTransaction(
                           int.parse(
                               controller.amountC.text.replaceAll('.', '')),
-                          controller.noteC.text,
-                          'BAYAR');
+                          controller.noteC.text);
                 },
                 child: Text("Simpan"),
               ),

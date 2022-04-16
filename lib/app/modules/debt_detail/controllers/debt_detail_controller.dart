@@ -1,9 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:los_pasar/app/data/rest_provider.dart';
+import 'package:los_pasar/app/modules/home/controllers/home_controller.dart';
 
 class DebtDetailController extends GetxController
     with StateMixin<Map<String, dynamic>> {
+  final HomeController homeController = Get.find();
+
   final transaction = FirebaseFirestore.instance.collection('transaction');
   var argId = Get.arguments['id'];
   var doc;
@@ -14,33 +17,15 @@ class DebtDetailController extends GetxController
       doc = data;
       change(data, status: RxStatus.success());
     });
-    // transaction.doc(id).get().then((value) {
-    //   var data = value.data() as Map<String, dynamic>;
-    //   change(data, status: RxStatus.success());
-    // });
   }
 
-  // get transaction firebase by id
-
-  // Future<QuerySnapshot<Object?>> getListData() async {
-  //   // get transaction firestore order by date and where
-  //   final data = await transaction
-  //       .orderBy('date', descending: true)
-  //       .where('name', isEqualTo: argDoc['name'])
-  //       .get();
-
-  //   int totalCount = 0;
-
-  //   data.docs.forEach(
-  //     (doc) {
-  //       if (doc.data()['type'] == 'PIUTANG')
-  //         totalCount += doc.data()['amount'] as int;
-  //     },
-  //   );
-  //   count.value = totalCount;
-
-  //   return data;
-  // }
+  int calculateDataAmount(var docDetail) {
+    var amount = 0;
+    docDetail.forEach((x) {
+      if (x['type'] == 'PINJAM') amount += x['amount'] as int;
+    });
+    return amount;
+  }
 
   @override
   void onInit() async {

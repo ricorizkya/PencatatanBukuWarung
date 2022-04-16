@@ -19,8 +19,9 @@ class GiveController extends GetxController {
   var argDoc = Get.arguments['doc'];
   var argDocDetail = Get.arguments['docDetail'];
   var argType = Get.arguments['type'];
+  var argAction = Get.arguments['action'];
 
-  void addTransaction(int amount, String note, String type) async {
+  void addTransaction(int amount, String note) async {
     if (amount == 0) {
       Get.defaultDialog(
           title: "Error",
@@ -34,7 +35,7 @@ class GiveController extends GetxController {
       "id": Uuid().v1(),
       "amount": amount,
       "note": note,
-      "type": type,
+      "type": argType,
       "createdDate": DateTime.now(),
     };
 
@@ -54,9 +55,10 @@ class GiveController extends GetxController {
         });
   }
 
-  void editTransaction(int amount, String date, String note) async {
+  void editTransaction(int amount, String note) async {
+    print(argId);
     try {
-      if (amount == 0 || date.isEmpty) {
+      if (amount == 0) {
         Get.defaultDialog(
             title: "Error",
             middleText: "Isi semua data dengan benar",
@@ -70,7 +72,6 @@ class GiveController extends GetxController {
 
       await RestProvider().editData('transaction', argId, {
         "amount": newAmount,
-        "dueDate": DateTime.parse(date),
         "detail": newDetail,
       });
 
@@ -81,7 +82,8 @@ class GiveController extends GetxController {
             Get.back();
             Get.back(result: 'success');
           });
-    } on Exception catch (_) {
+    } on Exception catch (e) {
+      print(e);
       Get.snackbar('Error', 'Gagal edit data',
           snackPosition: SnackPosition.BOTTOM);
     }
@@ -118,5 +120,14 @@ class GiveController extends GetxController {
         });
 
     return total;
+  }
+
+  @override
+  void onInit() {
+    argAction == 'EDIT'
+        ? amountC.text = formatNumber(argDocDetail['amount'].toString())
+        : amountC.text = "0";
+    argAction == 'EDIT' ? noteC.text = argDocDetail['note'] : noteC.text = "";
+    super.onInit();
   }
 }

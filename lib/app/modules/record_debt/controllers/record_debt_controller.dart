@@ -48,9 +48,7 @@ class RecordDebtController extends GetxController {
       await RestProvider().addData('transaction', {
         "name": name.toLowerCase(),
         "phone": phone,
-        "amount": amount,
         "dueDate": DateTime.parse(date),
-        "note": note,
         "status": "BELUM LUNAS",
         "detail": [
           {
