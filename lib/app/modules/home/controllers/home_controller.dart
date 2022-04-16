@@ -30,7 +30,7 @@ class HomeController extends GetxController
           var dueDate = DateTime.fromMillisecondsSinceEpoch(
               data['dueDate'].seconds * 1000);
           var now = DateTime.now();
-          if (dueDate.isBefore(now)) {
+          if (dueDate.isBefore(now) && data['status'] != 'LUNAS') {
             jatuhTempo += 1;
           }
         }
@@ -41,7 +41,9 @@ class HomeController extends GetxController
   int calculateDataAmount(var docDetail) {
     var amount = 0;
     docDetail.forEach((x) {
-      if (x['type'] == 'PINJAM') amount += x['amount'] as int;
+      if (x['type'] == 'PINJAM')
+        amount += x['amount'] as int;
+      else if (x['type'] == 'BAYAR') amount -= x['amount'] as int;
     });
     return amount;
   }

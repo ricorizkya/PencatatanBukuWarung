@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:los_pasar/app/data/rest_provider.dart';
+import 'package:los_pasar/app/data/utils.dart';
 import 'package:los_pasar/app/modules/home/controllers/home_controller.dart';
+import 'package:uuid/uuid.dart';
 
 class DebtDetailController extends GetxController
     with StateMixin<Map<String, dynamic>> {
@@ -25,6 +27,33 @@ class DebtDetailController extends GetxController
       if (x['type'] == 'PINJAM') amount += x['amount'] as int;
     });
     return amount;
+  }
+
+  void payOff(int amount) async {
+    var newDetail = {
+      "id": Uuid().v1(),
+      "amount": amount,
+      "note": 'LUNASKAN',
+      "type": 'BAYAR',
+      "createdDate": DateTime.now(),
+    };
+
+    Get.defaultDialog(
+        title: "Konfirmasi",
+        middleText: "Apakah anda yakin melunaskan sisa pembayaran Rp. " +
+            Utils().currencyFormatter.format(amount).toString() +
+            "?",
+        textCancel: 'Batal',
+        onCancel: () {},
+        textConfirm: "Ya",
+        onConfirm: () async {
+          await RestProvider().editData('transaction', argId, {
+            "status": "LUNAS",
+            "detail": FieldValue.arrayUnion([newDetail]),
+          });
+          Get.back();
+          getTransactionById(argId);
+        });
   }
 
   @override

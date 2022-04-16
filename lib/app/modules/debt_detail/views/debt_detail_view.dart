@@ -82,17 +82,25 @@ class DebtDetailView extends StatelessWidget {
                               ],
                             ),
                           ),
-                          Container(
-                              padding: EdgeInsets.all(16),
-                              child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                    primary: Color(yellow)),
-                                onPressed: () {},
-                                child: Text(
-                                  "Lunaskan",
-                                  style: TextStyle(color: Color(black)),
-                                ),
-                              )),
+                          controller.obx((state) {
+                            var amount = controller.homeController
+                                .calculateDataAmount(state!['detail']);
+                            return amount > 0
+                                ? Container(
+                                    padding: EdgeInsets.all(16),
+                                    child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                          primary: Color(yellow)),
+                                      onPressed: () {
+                                        controller.payOff(amount);
+                                      },
+                                      child: Text(
+                                        "Lunaskan",
+                                        style: TextStyle(color: Color(black)),
+                                      ),
+                                    ))
+                                : Center();
+                          }, onLoading: Center()),
                         ],
                       ),
                     ),

@@ -39,10 +39,7 @@ class GiveController extends GetxController {
       "createdDate": DateTime.now(),
     };
 
-    var newAmount = reArrangeAMountAdd(argDoc['detail'], newDetail);
-
     await RestProvider().editData('transaction', argId, {
-      "amount": newAmount,
       "detail": FieldValue.arrayUnion([newDetail]),
     });
 
@@ -68,10 +65,8 @@ class GiveController extends GetxController {
       }
 
       var newDetail = updateDetail(argDoc['detail'], argDocDetail['id']);
-      var newAmount = reArrangeAMountEdit(argDoc['detail']);
 
       await RestProvider().editData('transaction', argId, {
-        "amount": newAmount,
         "detail": newDetail,
       });
 
@@ -101,25 +96,6 @@ class GiveController extends GetxController {
         .toList();
 
     return allDetail;
-  }
-
-  reArrangeAMountAdd(var allDetail, var newDetail) {
-    num total = 0;
-    allDetail.add(newDetail);
-    allDetail.forEach((e) => {
-          if (e['type'] == 'PINJAM') {total = total + e['amount']}
-        });
-
-    return total;
-  }
-
-  reArrangeAMountEdit(var allDetail) {
-    num total = 0;
-    allDetail.forEach((e) => {
-          if (e['type'] == 'PINJAM') {total = total + e['amount']}
-        });
-
-    return total;
   }
 
   @override
