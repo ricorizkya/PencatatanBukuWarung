@@ -1,13 +1,13 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:excel/excel.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:los_pasar/app/data/rest_provider.dart';
 import 'package:los_pasar/app/data/utils.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
-
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 
@@ -165,5 +165,27 @@ class ReportController extends GetxController
       color: PdfColors.blueGrey900,
       fontSize: 20,
     );
+  }
+
+  createExcelFromData(var data) async {
+    var excel = Excel.createExcel();
+    Sheet sheetObject = excel['Sheet1'];
+
+    // insert array to excel
+    sheetObject.appendRow(["Nama", "Tanggal", "Jenis", "Jumlah"]);
+    data.forEach((x) {
+      sheetObject.appendRow([
+        x['name'],
+        Utils().timestampToDateFormat(x['createdDate']),
+        x['type'],
+        x['amount']
+      ]);
+    });
+
+    // Save the Changes in file
+    final dir = await getApplicationDocumentsDirectory();
+    final file = File('${dir.path}/reportExcel.xlsx');
+    await file.writeAsBytes(excel.encode()!);
+    await OpenFile.open(file.path);
   }
 }

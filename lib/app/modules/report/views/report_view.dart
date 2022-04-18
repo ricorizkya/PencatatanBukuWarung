@@ -129,7 +129,8 @@ class ReportView extends StatelessWidget {
                                         controller.isPdf.isTrue
                                             ? controller.createPDFFromData(
                                                 context, data)
-                                            : null;
+                                            : controller
+                                                .createExcelFromData(data);
                                       },
                                       child: Row(
                                         mainAxisAlignment:
