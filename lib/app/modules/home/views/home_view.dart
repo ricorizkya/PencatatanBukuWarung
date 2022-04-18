@@ -135,29 +135,34 @@ class HomeView extends StatelessWidget {
                       thickness: 1,
                       height: 0,
                     ),
-                    Container(
-                        padding: EdgeInsets.all(16),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Icon(CupertinoIcons.doc_chart_fill),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Text("Lihat Laporan Utang")
-                              ],
-                            ),
-                            Transform.scale(
-                              scaleX: -1,
-                              child: Icon(
-                                CupertinoIcons.back,
+                    GestureDetector(
+                      onTap: () {
+                        Get.toNamed(Routes.REPORT);
+                      },
+                      child: Container(
+                          padding: EdgeInsets.all(16),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Icon(CupertinoIcons.doc_chart_fill),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text("Lihat Laporan Utang")
+                                ],
                               ),
-                            )
-                          ],
-                        ))
+                              Transform.scale(
+                                scaleX: -1,
+                                child: Icon(
+                                  CupertinoIcons.back,
+                                ),
+                              )
+                            ],
+                          )),
+                    )
                   ],
                 ),
               ),
@@ -243,96 +248,6 @@ class HomeView extends StatelessWidget {
                     ],
                   );
                 }))
-            //   FutureBuilder<QuerySnapshot<Object?>>(
-            //       future: controller.getListData(),
-            //       builder: (context, snapshot) {
-            //         if (snapshot.connectionState == ConnectionState.done) {
-            //           return ListView.builder(
-            //               physics: NeverScrollableScrollPhysics(),
-            //               shrinkWrap: true,
-            //               itemCount: snapshot.data!.docs.length,
-            //               itemBuilder: (context, index) {
-            //                 Map<String, dynamic> doc = snapshot.data!.docs[index]
-            //                     .data() as Map<String, dynamic>;
-            //                 return Column(
-            //                   children: [
-            //                     GestureDetector(
-            //                       onTap: () async {
-            //                         var data = await Get.toNamed(
-            //                             Routes.DEBT_DETAIL,
-            //                             arguments: {
-            //                               "id": snapshot.data!.docs[index].id
-            //                             });
-
-            //                         if (data == 'success')
-            //                           controller.getListData();
-            //                       },
-            //                       child: ListTile(
-            //                         title: Text(
-            //                           doc['name'].toString().toTitleCase(),
-            //                         ),
-            //                         subtitle: Text.rich(TextSpan(children: [
-            //                           TextSpan(
-            //                               text: "Jatuh Tempo: ",
-            //                               style: TextStyle(fontSize: 12)),
-            //                           TextSpan(
-            //                               text: Utils().timestampToDateFormat(
-            //                                   doc['dueDate']),
-            //                               style: TextStyle(fontSize: 12))
-            //                         ])),
-            //                         leading: CircleAvatar(
-            //                             child:
-            //                                 Text("S")), //awalan pada circle image
-            //                         trailing: FittedBox(
-            //                           fit: BoxFit.fill,
-            //                           child: Column(
-            //                             children: [
-            //                               doc['type'] == "UTANG"
-            //                                   ? Text(
-            //                                       Utils()
-            //                                           .currencyFormatter
-            //                                           .format(controller
-            //                                               .calculateDataAmount(
-            //                                                   doc['detail']))
-            //                                           .toString(),
-            //                                       style: TextStyle(
-            //                                           color: Color(green),
-            //                                           fontSize: 20))
-            //                                   : Text(
-            //                                       Utils()
-            //                                           .currencyFormatter
-            //                                           .format(controller
-            //                                               .calculateDataAmount(
-            //                                                   doc['detail']))
-            //                                           .toString(),
-            //                                       style: TextStyle(
-            //                                           color: Color(red),
-            //                                           fontSize: 20)),
-            //                               doc['type'] == "UTANG"
-            //                                   ? Text("Utang Saya",
-            //                                       style: TextStyle(
-            //                                           color: Color(grey),
-            //                                           fontSize: 12))
-            //                                   : Text("Utang Pelanggan",
-            //                                       style: TextStyle(
-            //                                           color: Color(grey),
-            //                                           fontSize: 12)),
-            //                             ],
-            //                           ),
-            //                         ),
-            //                       ),
-            //                     ),
-            //                     Divider(
-            //                       color: Color(divider),
-            //                       thickness: 1,
-            //                       indent: Get.width * 0.15,
-            //                     ),
-            //                   ],
-            //                 );
-            //               });
-            //         }
-            //         return Center();
-            //       }),
           ],
         ),
       ),

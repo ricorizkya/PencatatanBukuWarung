@@ -56,4 +56,16 @@ class RestProvider extends GetConnect {
         .update(data)
         .whenComplete(() => EasyLoading.dismiss());
   }
+
+  // get all data firebase between date
+  Future<QuerySnapshot> getAllDataBetweenDate(
+      String collection, String field, DateTime start, DateTime end) async {
+    EasyLoading.show(status: 'Loading...', maskType: EasyLoadingMaskType.black);
+    return await firestore
+        .collection(collection)
+        .where(field, isGreaterThanOrEqualTo: start)
+        .where(field, isLessThanOrEqualTo: end)
+        .get()
+        .whenComplete(() => EasyLoading.dismiss());
+  }
 }
