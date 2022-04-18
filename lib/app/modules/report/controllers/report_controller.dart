@@ -27,6 +27,7 @@ class ReportController extends GetxController
   var utangSaya = 0.obs;
   var utangPelanggan = 0.obs;
   var sisa = 0.obs;
+  var isPdf = true.obs;
 
   getAllDataBetweenDate(DateTime start, DateTime end) {
     if (start.isAfter(end)) {

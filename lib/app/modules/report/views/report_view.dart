@@ -1,5 +1,6 @@
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -18,8 +19,142 @@ class ReportView extends StatelessWidget {
       floatingActionButton: controller.obx(
           (state) => FloatingActionButton.extended(
                 onPressed: () {
-                  // controller.getPdf();
-                  controller.createPDFFromData(context, state);
+                  showModalBottomSheet(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(15),
+                            topRight: Radius.circular(15)),
+                      ),
+                      context: context,
+                      builder: (context) {
+                        return Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            ListTile(
+                              title: new Text(
+                                'Unduh Laporan',
+                                style: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            Divider(
+                              color: Color(divider),
+                              thickness: 1,
+                              height: 10,
+                            ),
+                            ListTile(
+                              title: new Text('Format File'),
+                              trailing: FittedBox(
+                                fit: BoxFit.fill,
+                                child: Row(
+                                  children: [
+                                    Obx(() => GestureDetector(
+                                          onTap: () =>
+                                              controller.isPdf.value = true,
+                                          child: Container(
+                                            margin: EdgeInsets.all(10),
+                                            padding: EdgeInsets.all(10),
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    new BorderRadius.all(
+                                                        Radius.circular(10)),
+                                                color: controller.isPdf.isTrue
+                                                    ? Color(blue)
+                                                    : Color(greyBackground)),
+                                            child: Row(
+                                              children: [
+                                                Icon(Icons.picture_as_pdf),
+                                                SizedBox(
+                                                  width: 7,
+                                                ),
+                                                Text("PDF")
+                                              ],
+                                            ),
+                                          ),
+                                        )),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Obx(() => GestureDetector(
+                                          onTap: () =>
+                                              controller.isPdf.value = false,
+                                          child: Container(
+                                            margin: EdgeInsets.all(10),
+                                            padding: EdgeInsets.all(10),
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    new BorderRadius.all(
+                                                        Radius.circular(10)),
+                                                color: controller.isPdf.isFalse
+                                                    ? Color(blue)
+                                                    : Color(greyBackground)),
+                                            child: Row(
+                                              children: [
+                                                Icon(CupertinoIcons
+                                                    .doc_chart_fill),
+                                                SizedBox(
+                                                  width: 7,
+                                                ),
+                                                Text("Excel")
+                                              ],
+                                            ),
+                                          ),
+                                        )),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Divider(
+                              color: Color(divider),
+                              thickness: 10,
+                              height: 10,
+                            ),
+                            Container(
+                              decoration: BoxDecoration(
+                                  color: Color(white),
+                                  border: Border(
+                                      top: BorderSide(
+                                          color: Color.fromARGB(
+                                              123, 158, 158, 158),
+                                          width: 1.0))),
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(16, 16, 16, 16),
+                                child: controller.obx((data) => ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                          primary: Color(white),
+                                          side:
+                                              BorderSide(color: Color(yellow))),
+                                      onPressed: () {
+                                        controller.isPdf.isTrue
+                                            ? controller.createPDFFromData(
+                                                context, data)
+                                            : null;
+                                      },
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            CupertinoIcons.printer,
+                                            color: Color(yellow),
+                                          ),
+                                          SizedBox(
+                                            width: 5,
+                                          ),
+                                          Text(
+                                            "Unduh",
+                                            style:
+                                                TextStyle(color: Color(yellow)),
+                                          ),
+                                        ],
+                                      ),
+                                    )),
+                              ),
+                            )
+                          ],
+                        );
+                      });
                 },
                 icon: Icon(
                   Icons.download,
