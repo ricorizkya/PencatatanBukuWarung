@@ -1,7 +1,15 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:los_pasar/app/data/rest_provider.dart';
+import 'package:los_pasar/app/data/utils.dart';
+import 'package:open_file/open_file.dart';
+import 'package:path_provider/path_provider.dart';
+
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pw;
 
 class ReportController extends GetxController
     with StateMixin<List<Map<String, dynamic>>> {
@@ -91,5 +99,70 @@ class ReportController extends GetxController
 
     getAllDataBetweenDate(
         DateTime.parse(startC.text), DateTime.parse(endC.text));
+  }
+
+  createPDFFromData(context, var data) async {
+    final pw.Document pdf = pw.Document();
+    pdf.addPage(
+      pw.Page(
+        orientation: pw.PageOrientation.natural,
+        build: (context) => pw.Column(
+          children: [
+            pw.Container(
+              color: PdfColors.white,
+              child: pw.Table(
+                border: pw.TableBorder.all(color: PdfColors.black),
+                children: [
+                  tableRow(["Nama", "Tanggal", "Jenis", "Jumlah"],
+                      headerTextStyle()),
+                  ...data.map((x) {
+                    return tableRow([
+                      x['name'],
+                      Utils().timestampToDateFormat(x['createdDate']),
+                      x['type'],
+                      Utils().currencyFormatter.format(x['amount']).toString()
+                    ], dataTextStyle());
+                  }),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+
+    final bytes = await pdf.save();
+    final dir = await getApplicationDocumentsDirectory();
+    final file = File('${dir.path}/report.pdf');
+    await file.writeAsBytes(bytes);
+    await OpenFile.open(file.path);
+  }
+
+  tableRow(List<String> attributes, pw.TextStyle textStyle) {
+    return pw.TableRow(
+      children: attributes
+          .map(
+            (e) => pw.Text(
+              " " + e,
+              style: textStyle,
+            ),
+          )
+          .toList(),
+    );
+  }
+
+  pw.TextStyle headerTextStyle() {
+    return pw.TextStyle(
+      color: PdfColors.blueGrey500,
+      fontSize: 20,
+      fontWeight: pw.FontWeight.bold,
+    );
+  }
+
+  pw.TextStyle dataTextStyle() {
+    return pw.TextStyle(
+      color: PdfColors.blueGrey900,
+      fontSize: 20,
+    );
   }
 }

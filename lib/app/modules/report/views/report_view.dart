@@ -15,22 +15,23 @@ class ReportView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          // Get.toNamed(Routes.RECORD_DEBT, arguments: {
-          //   "type": "ADD",
-          // });
-        },
-        icon: Icon(
-          Icons.download,
-          color: Color(black),
-        ),
-        label: Text(
-          "UNDUH LAPORAN",
-          style: TextStyle(color: Color(black)),
-        ),
-        backgroundColor: Color(yellow),
-      ),
+      floatingActionButton: controller.obx(
+          (state) => FloatingActionButton.extended(
+                onPressed: () {
+                  // controller.getPdf();
+                  controller.createPDFFromData(context, state);
+                },
+                icon: Icon(
+                  Icons.download,
+                  color: Color(black),
+                ),
+                label: Text(
+                  "UNDUH LAPORAN",
+                  style: TextStyle(color: Color(black)),
+                ),
+                backgroundColor: Color(yellow),
+              ),
+          onLoading: Center()),
       appBar: AppBar(
         title: Text('Laporan Utang Piutang'),
         centerTitle: false,

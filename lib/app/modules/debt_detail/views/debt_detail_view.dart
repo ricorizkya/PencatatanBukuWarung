@@ -154,11 +154,21 @@ class DebtDetailView extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Column(
-                            children: [
-                              Icon(CupertinoIcons.cloud_download),
-                              Text("Laporan")
-                            ],
+                          GetBuilder<DebtDetailController>(
+                            builder: (_) {
+                              return GestureDetector(
+                                onTap: () {
+                                  controller.createPDFFromData(
+                                      context, controller.listData);
+                                },
+                                child: Column(
+                                  children: [
+                                    Icon(CupertinoIcons.cloud_download),
+                                    Text("Laporan")
+                                  ],
+                                ),
+                              );
+                            },
                           ),
                         ],
                       ),
