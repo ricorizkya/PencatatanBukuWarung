@@ -214,7 +214,7 @@ class TransactionDetailView extends StatelessWidget {
                         Text(
                           Utils()
                               .currencyFormatter
-                              .format(controller.argDoc['amount'] as int)
+                              .format(controller.argDocDetail['amount'] as int)
                               .toString(),
                           style: TextStyle(color: Color(grey), fontSize: 17),
                         ),

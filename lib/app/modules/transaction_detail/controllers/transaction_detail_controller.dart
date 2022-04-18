@@ -21,7 +21,7 @@ class TransactionDetailController extends GetxController {
       if (element['type'] == 'BAYAR') total += element['amount'] as int;
     });
     paidAmount.value = total;
-    insufficientPayment.value = argDoc['amount'] - total;
+    insufficientPayment.value = argDocDetail['amount'] - total;
   }
 
   @override
