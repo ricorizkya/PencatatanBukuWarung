@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:los_pasar/app/data/rest_provider.dart';
 import 'package:los_pasar/app/data/utils.dart';
 import 'package:los_pasar/app/modules/home/controllers/home_controller.dart';
+import 'package:los_pasar/app/routes/app_pages.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
@@ -19,9 +20,12 @@ class DebtDetailController extends GetxController
   var argId = Get.arguments['id'];
   var doc = {}.obs;
   var listData = [].obs;
+  late DocumentSnapshot<Object?> documentSnapshot;
 
   getTransactionById(String id) async {
     RestProvider().getDataById('transaction', id).then((value) {
+      documentSnapshot = value;
+      print(documentSnapshot);
       var data = value.data() as Map<String, dynamic>;
       listData.value =
           data['detail'].map((x) => x as Map<String, dynamic>).toList();
@@ -50,7 +54,7 @@ class DebtDetailController extends GetxController
 
     Get.defaultDialog(
         title: "Konfirmasi",
-        middleText: "Apakah anda yakin melunaskan sisa pembayaran Rp. " +
+        middleText: "Apakah anda yakin melunaskan sisa pembayaran " +
             Utils().currencyFormatter.format(amount).toString() +
             "?",
         textCancel: 'Batal',
@@ -63,6 +67,18 @@ class DebtDetailController extends GetxController
           });
           Get.back();
           getTransactionById(argId);
+        });
+  }
+
+  deleteData(String id) async {
+    Get.defaultDialog(
+        title: "Konfirmasi",
+        middleText: "Yakin hapus data?",
+        textCancel: "BATAL",
+        textConfirm: "OKE",
+        onConfirm: () async {
+          await RestProvider().deleteData('transaction', id);
+          Get.offAllNamed(Routes.HOME);
         });
   }
 

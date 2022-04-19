@@ -31,6 +31,54 @@ class DebtDetailView extends StatelessWidget {
                         state!['name'][0].toString().toCapitalized(),
                         style: TextStyle(fontSize: 20, color: Color(white))),
                     onLoading: Center())), //awalan pada circle image
+            trailing: FittedBox(
+              fit: BoxFit.fill,
+              child: Row(
+                children: [
+                  GestureDetector(
+                    onTap: () async {
+                      var data = await Get.toNamed(Routes.RECORD_DEBT,
+                          arguments: {
+                            'snapshot': controller.documentSnapshot,
+                            'action': 'EDIT'
+                          });
+
+                      if (data == 'success') {
+                        Get.back(result: 'success');
+                      }
+                    },
+                    child: Column(
+                      children: [
+                        Icon(
+                          CupertinoIcons.pencil,
+                          color: Color(white),
+                        ),
+                        Text(
+                          "Ubah",
+                          style: TextStyle(fontSize: 15, color: Color(white)),
+                        )
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    width: 15,
+                  ),
+                  GestureDetector(
+                    onTap: () =>
+                        {controller.deleteData(controller.documentSnapshot.id)},
+                    child: Column(
+                      children: [
+                        Icon(CupertinoIcons.trash, color: Color(white)),
+                        Text(
+                          "Hapus",
+                          style: TextStyle(fontSize: 15, color: Color(white)),
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
           ),
         ),
         body: ListView(

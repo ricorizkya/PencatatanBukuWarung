@@ -12,10 +12,10 @@ class HomeController extends GetxController
   calculateAmount() {
     transaction.snapshots().listen((snapshot) {
       change(snapshot, status: RxStatus.success());
+      utangSaya.value = 0;
+      utangPelanggan.value = 0;
       snapshot.docs.forEach((doc) {
         var data = doc.data();
-        utangSaya.value = 0;
-        utangPelanggan.value = 0;
         data['detail'].forEach((detail) {
           if (detail['type'] == 'BAYAR') {
             utangSaya += detail['amount'];
@@ -35,6 +35,9 @@ class HomeController extends GetxController
           }
         }
       });
+      utangPelanggan.value = utangPelanggan.value - utangSaya.value < 0
+          ? 0
+          : utangPelanggan.value - utangSaya.value;
     });
   }
 

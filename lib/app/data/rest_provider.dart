@@ -57,6 +57,16 @@ class RestProvider extends GetConnect {
         .whenComplete(() => EasyLoading.dismiss());
   }
 
+  // delete data firebase
+  Future<void> deleteData(String collection, String id) async {
+    EasyLoading.show(status: 'Loading...', maskType: EasyLoadingMaskType.black);
+    await firestore
+        .collection(collection)
+        .doc(id)
+        .delete()
+        .whenComplete(() => EasyLoading.dismiss());
+  }
+
   // get all data firebase between date
   Future<QuerySnapshot> getAllDataBetweenDate(
       String collection, String field, DateTime start, DateTime end) async {

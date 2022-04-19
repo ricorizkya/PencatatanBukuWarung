@@ -58,76 +58,91 @@ class RecordDebtView extends StatelessWidget {
               ],
             ),
           ),
-          Divider(
-            color: Color(divider),
-            thickness: 10,
-            height: 0,
-          ),
-          Container(
-            color: Color(blueBackground),
-            padding: const EdgeInsets.fromLTRB(16, 14, 16, 30),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text("Memberikan sejumlah"),
-                SizedBox(
-                  width: 40,
-                ),
-                Flexible(
-                  child: TextField(
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                    controller: controller.amountC,
-                    keyboardType: TextInputType.number,
-                    style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Color(red)),
-                    textAlign: TextAlign.right,
-                    onChanged: (string) {
-                      string =
-                          '${controller.formatNumber(string.replaceAll(',', ''))}';
-                      controller.amountC.value = TextEditingValue(
-                        text: string,
-                        selection:
-                            TextSelection.collapsed(offset: string.length),
-                      );
-                    },
-                    decoration: InputDecoration(
-                      prefixText: controller.currency,
-                      prefixStyle: TextStyle(
-                          color: Color(red),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20),
-                    ),
+          controller.argAction != 'EDIT'
+              ? Divider(
+                  color: Color(divider),
+                  thickness: 10,
+                  height: 0,
+                )
+              : Center(),
+          controller.argAction != 'EDIT'
+              ? Container(
+                  color: Color(blueBackground),
+                  padding: const EdgeInsets.fromLTRB(16, 14, 16, 30),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("Memberikan sejumlah"),
+                      SizedBox(
+                        width: 40,
+                      ),
+                      Flexible(
+                        child: TextField(
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
+                          controller: controller.amountC,
+                          keyboardType: TextInputType.number,
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Color(red)),
+                          textAlign: TextAlign.right,
+                          onChanged: (string) {
+                            string =
+                                '${controller.formatNumber(string.replaceAll(',', ''))}';
+                            controller.amountC.value = TextEditingValue(
+                              text: string,
+                              selection: TextSelection.collapsed(
+                                  offset: string.length),
+                            );
+                          },
+                          decoration: InputDecoration(
+                            prefixText: controller.currency,
+                            prefixStyle: TextStyle(
+                                color: Color(red),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              ],
-            ),
-          ),
-          Divider(
-            color: Color(divider),
-            thickness: 10,
-            height: 10,
-          ),
+                )
+              : Center(),
+          controller.argAction != 'EDIT'
+              ? Divider(
+                  color: Color(divider),
+                  thickness: 10,
+                  height: 10,
+                )
+              : Center(),
           Container(
-            padding: EdgeInsets.fromLTRB(16, 16, 16, 16),
+            padding: EdgeInsets.fromLTRB(
+                16, controller.argAction != 'EDIT' ? 16 : 0, 16, 16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Informasi Opsional"),
-                SizedBox(
-                  height: 8,
-                ),
-                TextFormField(
-                  controller: controller.noteC,
-                  decoration: InputDecoration(
-                    labelText: 'Catatan',
-                    prefixIcon: Icon(CupertinoIcons.square_favorites),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                  ),
-                ),
+                controller.argAction != 'EDIT'
+                    ? Text("Informasi Opsional")
+                    : Center(),
+                controller.argAction != 'EDIT'
+                    ? SizedBox(
+                        height: 8,
+                      )
+                    : Center(),
+                controller.argAction != 'EDIT'
+                    ? TextFormField(
+                        controller: controller.noteC,
+                        decoration: InputDecoration(
+                          labelText: 'Catatan',
+                          prefixIcon: Icon(CupertinoIcons.square_favorites),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                        ),
+                      )
+                    : Center(),
                 SizedBox(
                   height: 10,
                 ),
@@ -176,12 +191,20 @@ class RecordDebtView extends StatelessWidget {
                   primary: Color(yellow),
                 ),
                 onPressed: () {
-                  controller.addTransaction(
-                      controller.nameC.text,
-                      int.parse(controller.amountC.text.replaceAll('.', '')),
-                      controller.dateC.text,
-                      controller.noteC.text,
-                      controller.phoneC.text);
+                  controller.argAction != 'EDIT'
+                      ? controller.addTransaction(
+                          controller.nameC.text,
+                          int.parse(
+                              controller.amountC.text.replaceAll('.', '')),
+                          controller.dateC.text,
+                          controller.noteC.text,
+                          controller.phoneC.text)
+                      : controller.updateData(
+                          controller.argSnapshot.id,
+                          controller.nameC.text,
+                          controller.phoneC.text,
+                          controller.dateC.text);
+                  ;
                 },
                 child: Text("Simpan"),
               ),

@@ -181,72 +181,78 @@ class HomeView extends StatelessWidget {
                 itemCount: snapshot!.docs.length,
                 itemBuilder: (context, index) {
                   Map<String, dynamic> doc = snapshot.docs[index].data();
-                  return Column(
-                    children: [
-                      GestureDetector(
-                        onTap: () async {
-                          var data = await Get.toNamed(Routes.DEBT_DETAIL,
-                              arguments: {"id": snapshot.docs[index].id});
+                  if (controller.calculateDataAmount(doc['detail']) > 0) {
+                    return Column(
+                      children: [
+                        GestureDetector(
+                          onTap: () async {
+                            var data = await Get.toNamed(Routes.DEBT_DETAIL,
+                                arguments: {"id": snapshot.docs[index].id});
 
-                          if (data == 'success') controller.calculateAmount();
-                        },
-                        child: ListTile(
-                          title: Text(
-                            doc['name'].toString().toTitleCase(),
-                          ),
-                          subtitle: Text.rich(TextSpan(children: [
-                            TextSpan(
-                                text: "Jatuh Tempo: ",
-                                style: TextStyle(fontSize: 12)),
-                            TextSpan(
-                                text: Utils()
-                                    .timestampToDateFormat(doc['dueDate']),
-                                style: TextStyle(fontSize: 12))
-                          ])),
-                          leading: CircleAvatar(
-                              child: Text("S")), //awalan pada circle image
-                          trailing: FittedBox(
-                            fit: BoxFit.fill,
-                            child: Column(
-                              children: [
-                                doc['type'] == "UTANG"
-                                    ? Text(
-                                        Utils()
-                                            .currencyFormatter
-                                            .format(
-                                                controller.calculateDataAmount(
-                                                    doc['detail']))
-                                            .toString(),
-                                        style: TextStyle(
-                                            color: Color(green), fontSize: 20))
-                                    : Text(
-                                        Utils()
-                                            .currencyFormatter
-                                            .format(
-                                                controller.calculateDataAmount(
-                                                    doc['detail']))
-                                            .toString(),
-                                        style: TextStyle(
-                                            color: Color(red), fontSize: 20)),
-                                doc['type'] == "UTANG"
-                                    ? Text("Utang Saya",
-                                        style: TextStyle(
-                                            color: Color(grey), fontSize: 12))
-                                    : Text("Utang Pelanggan",
-                                        style: TextStyle(
-                                            color: Color(grey), fontSize: 12)),
-                              ],
+                            if (data == 'success') controller.calculateAmount();
+                          },
+                          child: ListTile(
+                            title: Text(
+                              doc['name'].toString().toTitleCase(),
+                            ),
+                            subtitle: Text.rich(TextSpan(children: [
+                              TextSpan(
+                                  text: "Jatuh Tempo: ",
+                                  style: TextStyle(fontSize: 12)),
+                              TextSpan(
+                                  text: Utils()
+                                      .timestampToDateFormat(doc['dueDate']),
+                                  style: TextStyle(fontSize: 12))
+                            ])),
+                            leading: CircleAvatar(
+                                child: Text("S")), //awalan pada circle image
+                            trailing: FittedBox(
+                              fit: BoxFit.fill,
+                              child: Column(
+                                children: [
+                                  doc['type'] == "UTANG"
+                                      ? Text(
+                                          Utils()
+                                              .currencyFormatter
+                                              .format(controller
+                                                  .calculateDataAmount(
+                                                      doc['detail']))
+                                              .toString(),
+                                          style: TextStyle(
+                                              color: Color(green),
+                                              fontSize: 20))
+                                      : Text(
+                                          Utils()
+                                              .currencyFormatter
+                                              .format(controller
+                                                  .calculateDataAmount(
+                                                      doc['detail']))
+                                              .toString(),
+                                          style: TextStyle(
+                                              color: Color(red), fontSize: 20)),
+                                  doc['type'] == "UTANG"
+                                      ? Text("Utang Saya",
+                                          style: TextStyle(
+                                              color: Color(grey), fontSize: 12))
+                                      : Text("Utang Pelanggan",
+                                          style: TextStyle(
+                                              color: Color(grey),
+                                              fontSize: 12)),
+                                ],
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      Divider(
-                        color: Color(divider),
-                        thickness: 1,
-                        indent: Get.width * 0.15,
-                      ),
-                    ],
-                  );
+                        Divider(
+                          color: Color(divider),
+                          thickness: 1,
+                          indent: Get.width * 0.15,
+                        ),
+                      ],
+                    );
+                  } else {
+                    return Center();
+                  }
                 }))
           ],
         ),

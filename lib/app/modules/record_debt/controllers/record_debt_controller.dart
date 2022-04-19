@@ -22,6 +22,9 @@ class RecordDebtController extends GetxController {
   final noteC = TextEditingController();
   final dateC = TextEditingController();
 
+  var argAction = Get.arguments['action'];
+  var argSnapshot = Get.arguments['snapshot'];
+
   void addTransaction(
       String name, int amount, String date, String note, String phone) async {
     try {
@@ -72,5 +75,45 @@ class RecordDebtController extends GetxController {
       Get.snackbar('Error', 'Tambah data gagal',
           snackPosition: SnackPosition.BOTTOM);
     }
+  }
+
+  updateData(String id, String name, String phone, String date) async {
+    if (name.isEmpty || date.isEmpty) {
+      Get.defaultDialog(
+          title: "Error",
+          middleText: "Isi semua data dengan benar",
+          textConfirm: "OKE",
+          onConfirm: () => Get.back());
+      return;
+    }
+
+    await RestProvider().editData('transaction', id, {
+      "name": name.toLowerCase(),
+      "phone": phone,
+      "dueDate": DateTime.parse(date),
+    });
+
+    Get.defaultDialog(
+        title: "Sukses",
+        middleText: "Edit data berhasil",
+        onConfirm: () {
+          Get.offAllNamed(Routes.HOME);
+        });
+  }
+
+  @override
+  void onInit() {
+    if (argAction == 'EDIT') {
+      var doc = argSnapshot.data() as Map<String, dynamic>;
+      argAction == 'EDIT' ? nameC.text = doc['name'] : nameC.text = '';
+      argAction == 'EDIT' ? phoneC.text = doc['phone'] : phoneC.text = '';
+      var datetime = DateTime.fromMicrosecondsSinceEpoch(
+          doc['dueDate'].microsecondsSinceEpoch);
+      argAction == 'EDIT'
+          ? dateC.text = DateFormat('yyyy-MM-dd').format(datetime)
+          : dateC.text = '';
+    }
+
+    super.onInit();
   }
 }
