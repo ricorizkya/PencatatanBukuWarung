@@ -11,6 +11,7 @@ abstract class Routes {
   static const TRANSACTION_DETAIL = _Paths.TRANSACTION_DETAIL;
   static const GIVE = _Paths.GIVE;
   static const REPORT = _Paths.REPORT;
+  static const DUE_DATE = _Paths.DUE_DATE;
 }
 
 abstract class _Paths {
@@ -23,4 +24,5 @@ abstract class _Paths {
   static const TRANSACTION_DETAIL = '/transaction-detail';
   static const GIVE = '/give';
   static const REPORT = '/report';
+  static const DUE_DATE = '/due-date';
 }

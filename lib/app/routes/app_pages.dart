@@ -2,6 +2,8 @@ import 'package:get/get.dart';
 
 import '../modules/debt_detail/bindings/debt_detail_binding.dart';
 import '../modules/debt_detail/views/debt_detail_view.dart';
+import '../modules/due_date/bindings/due_date_binding.dart';
+import '../modules/due_date/views/due_date_view.dart';
 import '../modules/get_started/bindings/get_started_binding.dart';
 import '../modules/get_started/views/get_started_view.dart';
 import '../modules/give/bindings/give_binding.dart';
@@ -64,6 +66,11 @@ class AppPages {
       name: _Paths.REPORT,
       page: () => ReportView(),
       binding: ReportBinding(),
+    ),
+    GetPage(
+      name: _Paths.DUE_DATE,
+      page: () => DueDateView(),
+      binding: DueDateBinding(),
     ),
   ];
 }

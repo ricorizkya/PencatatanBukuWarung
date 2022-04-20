@@ -8,12 +8,15 @@ class HomeController extends GetxController
   var utangSaya = 0.obs;
   var utangPelanggan = 0.obs;
   var jatuhTempo = 0.obs;
+  late QuerySnapshot<Map<String, dynamic>> dataSnapshot;
 
   calculateAmount() {
     transaction.snapshots().listen((snapshot) {
       change(snapshot, status: RxStatus.success());
+      dataSnapshot = snapshot;
       utangSaya.value = 0;
       utangPelanggan.value = 0;
+      jatuhTempo.value = 0;
       snapshot.docs.forEach((doc) {
         var data = doc.data();
         data['detail'].forEach((detail) {
@@ -23,7 +26,6 @@ class HomeController extends GetxController
             utangPelanggan += detail['amount'];
           }
         });
-
         // if dueDate lower than today
         if (data['dueDate'] != null) {
           // timestamp to datetime

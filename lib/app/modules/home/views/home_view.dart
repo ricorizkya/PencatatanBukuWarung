@@ -43,26 +43,32 @@ class HomeView extends StatelessWidget {
             fit: BoxFit.fill,
             child: Row(
               children: [
-                Container(
-                  decoration: BoxDecoration(
-                      color: Color(white),
-                      borderRadius: BorderRadius.circular(30)),
-                  padding: EdgeInsets.fromLTRB(10, 3, 10, 3),
-                  child: Row(
-                    children: [
-                      Text("Jatuh Tempo", style: TextStyle(color: Color(blue))),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Container(
-                        padding: EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                            color: Color(grey), shape: BoxShape.circle),
-                        child: Text(controller.jatuhTempo.value.toString(),
-                            style:
-                                TextStyle(color: Color(white), fontSize: 12)),
-                      ),
-                    ],
+                GestureDetector(
+                  onTap: () => Get.toNamed(Routes.DUE_DATE,
+                      arguments: {"snapshot": controller.dataSnapshot}),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Color(white),
+                        borderRadius: BorderRadius.circular(30)),
+                    padding: EdgeInsets.fromLTRB(10, 3, 10, 3),
+                    child: Row(
+                      children: [
+                        Text("Jatuh Tempo",
+                            style: TextStyle(color: Color(blue))),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Obx(() => Container(
+                              padding: EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                  color: Color(grey), shape: BoxShape.circle),
+                              child: Text(
+                                  controller.jatuhTempo.value.toString(),
+                                  style: TextStyle(
+                                      color: Color(white), fontSize: 12)),
+                            )),
+                      ],
+                    ),
                   ),
                 ),
               ],
