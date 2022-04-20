@@ -32,7 +32,7 @@ class HomeController extends GetxController
           var dueDate = DateTime.fromMillisecondsSinceEpoch(
               data['dueDate'].seconds * 1000);
           var now = DateTime.now();
-          if (dueDate.isBefore(now) && data['status'] != 'LUNAS') {
+          if (now.difference(dueDate).inDays > 0 && data['status'] != 'LUNAS') {
             jatuhTempo += 1;
           }
         }

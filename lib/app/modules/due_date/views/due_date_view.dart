@@ -46,12 +46,15 @@ class DueDateView extends GetView<DueDateController> {
                     if (label == 'sudah lewat' &&
                         dateTimeNow.difference(dueDate).inDays > 0) {
                       isTrue = true;
+                      controller.countTotalSudahLewat();
                     } else if (label == 'hari ini' &&
                         dateTimeNow.difference(dueDate).inDays == 0) {
                       isTrue = true;
+                      controller.countTotalHariIni();
                     } else if (label == 'akan datang' &&
                         dateTimeNow.difference(dueDate).inDays < 0) {
                       isTrue = true;
+                      controller.countTotalAkanDatang();
                     }
 
                     if (isTrue &&
@@ -130,13 +133,60 @@ class DueDateView extends GetView<DueDateController> {
                         ],
                       );
                     } else {
-                      return Center();
+                      return label == 'sudah lewat' &&
+                              controller.totalSudahLewat == 0 &&
+                              index + 1 == controller.argSnapshot.docs.length
+                          ? NoDataWidget(
+                              label: label,
+                            )
+                          : label == 'hari ini' &&
+                                  controller.totalHariIni == 0 &&
+                                  index + 1 ==
+                                      controller.argSnapshot.docs.length
+                              ? NoDataWidget(
+                                  label: label,
+                                )
+                              : label == 'akan datang' &&
+                                      controller.totalSudahLewat == 0 &&
+                                      index + 1 ==
+                                          controller.argSnapshot.docs.length
+                                  ? NoDataWidget(
+                                      label: label,
+                                    )
+                                  : Center();
                     }
                   })
             ],
           );
         }).toList(),
       ),
+    );
+  }
+}
+
+class NoDataWidget extends StatelessWidget {
+  final String label;
+
+  const NoDataWidget({Key? key, required this.label}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.only(top: 100),
+      child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.calendar_month,
+              size: 100,
+              color: Color(blue),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Text("Belum ada utang jatuh tempo $label"),
+          ]),
     );
   }
 }

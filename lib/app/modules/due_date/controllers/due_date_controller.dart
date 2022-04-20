@@ -10,8 +10,24 @@ class DueDateController extends GetxController
     Tab(text: 'Akan Datang'),
   ];
 
+  var totalSudahLewat = 0.obs;
+  var totalHariIni = 0.obs;
+  var totalAkanDatang = 0.obs;
+
   late TabController tabController;
   QuerySnapshot<Map<String, dynamic>> argSnapshot = Get.arguments['snapshot'];
+
+  countTotalSudahLewat() {
+    totalSudahLewat += 1;
+  }
+
+  countTotalHariIni() {
+    totalHariIni += 1;
+  }
+
+  countTotalAkanDatang() {
+    totalAkanDatang += 1;
+  }
 
   @override
   void onInit() {
