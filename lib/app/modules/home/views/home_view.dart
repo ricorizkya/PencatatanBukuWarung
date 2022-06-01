@@ -61,7 +61,7 @@ class HomeView extends StatelessWidget {
                         Obx(() => Container(
                               padding: EdgeInsets.all(8),
                               decoration: BoxDecoration(
-                                  color: Color(grey), shape: BoxShape.circle),
+                                  color: Color(red), shape: BoxShape.circle),
                               child: Text(
                                   controller.jatuhTempo.value.toString(),
                                   style: TextStyle(
@@ -90,30 +90,30 @@ class HomeView extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Container(
-                            padding: EdgeInsets.all(16),
-                            width: Get.width * 0.40,
-                            child: Column(
-                              children: [
-                                Text("Utang Saya"),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Obx(() => Text(
-                                    Utils()
-                                        .currencyFormatter
-                                        .format(controller.utangSaya.value)
-                                        .toString(),
-                                    style: TextStyle(
-                                        color: Color(green), fontSize: 20)))
-                              ],
-                            ),
-                          ),
-                          VerticalDivider(
-                            color: Color(divider),
-                            thickness: 1,
-                            width: 0,
-                          ),
+                          // Container(
+                          //   padding: EdgeInsets.all(16),
+                          //   width: Get.width * 0.40,
+                          //   child: Column(
+                          //     children: [
+                          //       Text("Utang Saya"),
+                          //       SizedBox(
+                          //         height: 5,
+                          //       ),
+                          //       Obx(() => Text(
+                          //           Utils()
+                          //               .currencyFormatter
+                          //               .format(controller.utangSaya.value)
+                          //               .toString(),
+                          //           style: TextStyle(
+                          //               color: Color(green), fontSize: 20)))
+                          //     ],
+                          //   ),
+                          // ),
+                          // VerticalDivider(
+                          //   color: Color(divider),
+                          //   thickness: 1,
+                          //   width: 0,
+                          // ),
                           Container(
                             padding: EdgeInsets.all(16),
                             width: Get.width * 0.40,

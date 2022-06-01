@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:los_pasar/app/modules/print/bindings/print_binding.dart';
+import 'package:los_pasar/app/modules/print/views/print_view.dart';
 
 import '../modules/debt_detail/bindings/debt_detail_binding.dart';
 import '../modules/debt_detail/views/debt_detail_view.dart';
@@ -24,7 +26,7 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.HOME;
+  static const INITIAL = Routes.RESOURCE;
 
   static final routes = [
     GetPage(
@@ -72,5 +74,7 @@ class AppPages {
       page: () => DueDateView(),
       binding: DueDateBinding(),
     ),
+    GetPage(
+        name: _Paths.PRINT, page: () => PrintView(), binding: PrintBinding())
   ];
 }

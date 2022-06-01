@@ -232,26 +232,26 @@ class ReportView extends StatelessWidget {
                         ],
                       ),
                     ),
-                    Divider(
-                      color: Color(divider),
-                      thickness: 1,
-                      height: 0,
-                    ),
-                    Container(
-                        padding: EdgeInsets.all(16),
-                        child: Center(
-                          child: Obx(() => Text.rich(TextSpan(children: [
-                                TextSpan(
-                                    text: "Sisa utang saya ",
-                                    style: TextStyle(color: Color(green))),
-                                TextSpan(
-                                    text: Utils()
-                                        .currencyFormatter
-                                        .format(controller.sisa.value)
-                                        .toString(),
-                                    style: TextStyle(color: Color(green)))
-                              ]))),
-                        )),
+                    // Divider(
+                    //   color: Color(divider),
+                    //   thickness: 1,
+                    //   height: 0,
+                    // ),
+                    // Container(
+                    //     padding: EdgeInsets.all(16),
+                    //     child: Center(
+                    //       child: Obx(() => Text.rich(TextSpan(children: [
+                    //             TextSpan(
+                    //                 text: "Sisa utang saya ",
+                    //                 style: TextStyle(color: Color(green))),
+                    //             TextSpan(
+                    //                 text: Utils()
+                    //                     .currencyFormatter
+                    //                     .format(controller.sisa.value)
+                    //                     .toString(),
+                    //                 style: TextStyle(color: Color(green)))
+                    //           ]))),
+                    //     )),
                   ],
                 ),
               ),

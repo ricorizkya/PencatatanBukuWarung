@@ -3,6 +3,7 @@ part of 'app_pages.dart';
 
 abstract class Routes {
   Routes._();
+  static const MAIN = _Paths.MAIN;
   static const HOME = _Paths.HOME;
   static const RESOURCE = _Paths.RESOURCE;
   static const GET_STARTED = _Paths.GET_STARTED;
@@ -12,10 +13,12 @@ abstract class Routes {
   static const GIVE = _Paths.GIVE;
   static const REPORT = _Paths.REPORT;
   static const DUE_DATE = _Paths.DUE_DATE;
+  static const PRINT = _Paths.PRINT;
 }
 
 abstract class _Paths {
   _Paths._();
+  static const MAIN = '/main';
   static const HOME = '/home';
   static const RESOURCE = '/resource';
   static const GET_STARTED = '/get-started';
@@ -25,4 +28,5 @@ abstract class _Paths {
   static const GIVE = '/give';
   static const REPORT = '/report';
   static const DUE_DATE = '/due-date';
+  static const PRINT = '/print';
 }

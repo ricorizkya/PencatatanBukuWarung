@@ -46,6 +46,7 @@ class RecordDebtView extends StatelessWidget {
                   height: 8,
                 ),
                 TextFormField(
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   controller: controller.phoneC,
                   decoration: InputDecoration(
                     labelText: 'Nomor HP',

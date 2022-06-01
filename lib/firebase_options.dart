@@ -40,21 +40,22 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBT2m0PzICjXU2PsmU2bRgZq8fzCBe7Nso',
-    appId: '1:148021691024:android:0c9571775993df17e0ce15',
-    messagingSenderId: '148021691024',
-    projectId: 'los-pasar',
-    storageBucket: 'los-pasar.appspot.com',
+    apiKey: 'AIzaSyDWPR_U7d7l1srmTV9TzsuOKbGE4mnlwPI',
+    appId: '1:875523894843:android:3d7571514a103d9699761e',
+    messagingSenderId: '875523894843',
+    projectId: 'aplikasihutang-e6aea',
+    databaseURL: 'https://aplikasihutang-e6aea-default-rtdb.asia-southeast1.firebasedatabase.app',
+    storageBucket: 'aplikasihutang-e6aea.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBRpSkXu9X8snhEys4E7tLXvPkNwzpfBWI',
-    appId: '1:148021691024:ios:a9455bd0e0c91d96e0ce15',
-    messagingSenderId: '148021691024',
-    projectId: 'los-pasar',
-    storageBucket: 'los-pasar.appspot.com',
-    androidClientId: '148021691024-45dmgie2cd6o6vffhr3l87b967ha1nce.apps.googleusercontent.com',
-    iosClientId: '148021691024-6lakrnp0kjvospi90b18su4vlql3o72k.apps.googleusercontent.com',
-    iosBundleId: 'com.atn.los-pasar',
+    apiKey: 'AIzaSyA3-59MQDjyXIBeIXbr4B7AHuLrUSANgDE',
+    appId: '1:875523894843:ios:c567b7faf748e29b99761e',
+    messagingSenderId: '875523894843',
+    projectId: 'aplikasihutang-e6aea',
+    databaseURL: 'https://aplikasihutang-e6aea-default-rtdb.asia-southeast1.firebasedatabase.app',
+    storageBucket: 'aplikasihutang-e6aea.appspot.com',
+    iosClientId: '875523894843-jq8mffuhb6pddqok3vpg42nu4oa8a5bv.apps.googleusercontent.com',
+    iosBundleId: 'com.example.pasar',
   );
 }

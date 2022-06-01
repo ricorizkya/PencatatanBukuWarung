@@ -9,6 +9,17 @@ import '../controllers/transaction_detail_controller.dart';
 
 class TransactionDetailView extends StatelessWidget {
   final TransactionDetailController controller = Get.find();
+
+  // final List<Map<String, dynamic>> data = [
+  //   {
+  //     'date': controller.argDocDetail['createdDate'].toString(),
+  //     'name': controller.argDoc['name'].toString(),
+  //     'phone': controller.argDoc['phone'].toString(),
+  //     'amount': controller.argDocDetail['amount'].toString(),
+  //     'note': controller.argDocDetail['note'].toString()
+  //   }
+  // ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -113,7 +124,7 @@ class TransactionDetailView extends StatelessWidget {
                       height: 5,
                     ),
                     Text(
-                      '082144285606',
+                      '084657894431',
                       style: TextStyle(color: Color(grey), fontSize: 15),
                     ),
                     Divider(
@@ -121,6 +132,15 @@ class TransactionDetailView extends StatelessWidget {
                       color: Color(divider),
                       height: 30,
                     ),
+                    // Text(
+                    //   'ID',
+                    //   style: TextStyle(color: Color(grey), fontSize: 17),
+                    // ),
+                    // Text(
+                    //     controller.argDocDetail['id'].toString().toTitleCase()),
+                    // SizedBox(
+                    //   height: 5,
+                    // ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -133,9 +153,6 @@ class TransactionDetailView extends StatelessWidget {
                           style: TextStyle(color: Color(grey), fontSize: 17),
                         ),
                       ],
-                    ),
-                    SizedBox(
-                      height: 5,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -266,26 +283,6 @@ class TransactionDetailView extends StatelessWidget {
                   ],
                 ),
               ),
-              // Padding(
-              //   padding: const EdgeInsets.fromLTRB(0, 16, 0, 16),
-              //   child: Row(
-              //     children: [
-              //       Switch(
-              //         value: true,
-              //         onChanged: (value) {},
-              //         activeTrackColor: Color(blueBackground),
-              //         activeColor: Color(blue),
-              //       ),
-              //       SizedBox(
-              //         width: 5,
-              //       ),
-              //       Text(
-              //         'Tampilkan detail sisa utang',
-              //         style: TextStyle(color: Color(grey), fontSize: 17),
-              //       ),
-              //     ],
-              //   ),
-              // )
             ],
           )),
       bottomNavigationBar: BottomAppBar(
@@ -293,31 +290,40 @@ class TransactionDetailView extends StatelessWidget {
           elevation: 0,
           child: Container(
             decoration: BoxDecoration(
-                color: Color(white),
+                color: Color(yellow),
                 border: Border(
                     top: BorderSide(
                         color: Color.fromARGB(123, 158, 158, 158),
                         width: 1.0))),
             child: Padding(
               padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    primary: Color(white),
-                    side: BorderSide(color: Color(yellow))),
-                onPressed: () {},
+              child: GestureDetector(
+                onTap: () async {
+                  var data = await Get.toNamed(Routes.PRINT, arguments: {
+                    'id': controller.argId,
+                    'doc': controller.argDoc,
+                    'docDetail': controller.argDocDetail,
+                    'type': controller.argDocDetail['type'],
+                    // 'action': 'EDIT'
+                  });
+
+                  if (data == 'success') {
+                    Get.back(result: 'success');
+                  }
+                },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Icon(
                       CupertinoIcons.printer,
-                      color: Color(yellow),
+                      color: Color(white),
                     ),
                     SizedBox(
                       width: 5,
                     ),
                     Text(
                       "Cetak Nota",
-                      style: TextStyle(color: Color(yellow)),
+                      style: TextStyle(color: Color(white)),
                     ),
                   ],
                 ),
